@@ -1,0 +1,912 @@
+<!doctype html>
+<html lang="bn" id="htmlRoot">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#1768e5">
+<title>আমাদের কামারের চর</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap');
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#eef2f9;color:#172033;font-family:"Noto Sans Bengali",sans-serif;transition:background .3s,color .3s}
+body.dark{background:#111827;color:#f3f4f6}
+body.dark .section,body.dark .modal-box,body.dark .drawer-panel,body.dark .item,body.dark .admin-row,body.dark .search-panel,body.dark .ai-box{background:#1f2937;color:#f3f4f6;box-shadow:0 5px 18px #00000055}
+body.dark .admin-btn{background:#1f2937;color:#fff;border-color:#374151}
+body.dark .field input,body.dark .field textarea,body.dark .field select{background:#111827;color:#fff;border-color:#374151}
+body.dark .menu-item:hover{background:#374151}
+body.dark .footer{background:#0b0f17;color:#9ca3af}
+body.dark .btn.secondary{background:#374151;color:#fff}
+body.dark .muted{color:#b9c2d0}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;border:0}
+a{text-decoration:none}
+.header{position:sticky;top:0;z-index:30;padding:12px 18px;background:linear-gradient(100deg,#164fe8,#10b9d8);color:#fff;display:flex;align-items:center;gap:10px;box-shadow:0 3px 14px #0002}
+.logo{font-size:25px}.brand{font-size:22px;font-weight:900;flex:1}
+.header-actions{display:flex;align-items:center;gap:8px}
+.refresh,.header-search-btn{background:#ffffff18;color:#fff;border:1px solid #ffffff55;border-radius:28px;padding:9px 14px;font-size:15px}
+.menu-btn{background:#ffffff20;color:#fff;border:1px solid #ffffff55;border-radius:12px;width:48px;height:44px;font-size:25px}
+.search-panel{display:none;position:sticky;top:68px;z-index:25;background:#fff;margin:0 auto;padding:10px 14px;box-shadow:0 4px 14px #0002}
+.search-panel.show{display:block}.search-row{display:flex;gap:8px;max-width:1050px;margin:auto}
+.search-row input{flex:1;padding:12px 15px;border:1px solid #d5dbe5;border-radius:15px;outline:0}.search-row button{padding:10px 15px;border-radius:13px;background:#1768e5;color:#fff}
+.hero{padding:34px 20px 25px;text-align:center;color:#fff;background:linear-gradient(135deg,#091941,#08496c)}
+.hero h1{font-size:34px;margin:0;font-weight:900}.hero p{margin:4px 0 17px;color:#cddbf0;font-size:17px}
+.date{display:inline-block;padding:10px 22px;border:1px solid #00aee9;border-radius:35px;color:#ffe500;font-weight:800;cursor:pointer;font-size:17px;min-width:280px;text-align:center}
+.notice{background:linear-gradient(90deg,#f00042,#e51a4c);color:#fff;padding:11px 20px;font-weight:800;overflow:hidden;white-space:nowrap;box-sizing:border-box;cursor:pointer}
+.notice marquee{font-weight:700}
+.wrap{max-width:1050px;margin:auto;padding:18px}.section{background:#fff;border-radius:27px;margin-bottom:18px;box-shadow:0 5px 18px #00000012;overflow:hidden}
+.section-title{padding:16px 19px;color:#fff;font-size:19px;font-weight:900}.section-body{padding:15px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.card{min-height:135px;border-radius:23px;color:#fff;padding:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:inset 0 -35px 55px #0000000b;transition:.18s}
+.card:hover{transform:translateY(-2px)}.icon{font-size:31px;background:#ffffff22;border:1px solid #ffffff35;width:58px;height:58px;border-radius:17px;display:flex;align-items:center;justify-content:center;margin-bottom:9px}
+.card b{font-size:16px}.big{min-height:145px}.item{background:#fff;border-radius:20px;padding:15px;margin-bottom:12px;box-shadow:0 3px 12px #00000010}
+.item:last-child{margin-bottom:0}.item h3{margin:0 0 5px}.item p{margin:5px 0;line-height:1.55;white-space:pre-wrap}
+.pill{display:inline-block;padding:4px 9px;border-radius:20px;background:#edf3ff;color:#1758e8;font-size:12px;font-weight:700;margin:3px 4px 3px 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{display:inline-block;padding:9px 13px;border-radius:11px;background:#1768e5;color:#fff}
+.btn.secondary{background:#eef2f7;color:#243047}.btn.danger{background:#e53935}.btn.green{background:#0b9c6b}.btn.pink{background:#e51a4c}.btn.purple{background:#7c3aed}
+.watch{display:inline-block;padding:9px 13px;border-radius:11px;background:#e51a4c;color:#fff}.muted{color:#687386}.source{font-size:12px;color:#778194}
+.admin-btn{display:block;margin:8px auto 25px;background:#fff;border:1px solid #ccd3df;border-radius:30px;padding:12px 22px}
+.footer{text-align:center;padding:28px;background:#e5eaf4;color:#6b7280}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:60;padding:18px;overflow:auto}.modal.show{display:flex;align-items:flex-start;justify-content:center}
+.modal-box{background:#fff;width:min(720px,100%);margin:25px auto;border-radius:22px;overflow:hidden}.modal-head{padding:16px 18px;background:linear-gradient(100deg,#1758e8,#13b4d2);color:#fff;display:flex;align-items:center}
+.modal-head h2{margin:0;flex:1;font-size:20px}.close{background:#ffffff20;color:#fff;border-radius:50%;width:38px;height:38px}.modal-body{padding:18px}
+.field{margin-bottom:11px}.field label{display:block;font-weight:700;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;padding:11px;border:1px solid #d5dbe5;border-radius:11px;outline:0;background:#fff}
+.field textarea{min-height:100px;resize:vertical}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.admin-list{max-height:55vh;overflow:auto}
+.admin-row{padding:12px;border:1px solid #e2e6ee;border-radius:13px;margin-bottom:8px;display:flex;gap:10px;align-items:center}.admin-row .grow{flex:1}.admin-row small{color:#687386}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#172033;color:#fff;padding:11px 17px;border-radius:25px;display:none;z-index:90}.toast.show{display:block}
+.drawer{position:fixed;inset:0;z-index:70;display:none}.drawer.show{display:block}.drawer-bg{position:absolute;inset:0;background:#0008}
+.drawer-panel{position:absolute;left:0;top:0;bottom:0;width:min(340px,88vw);background:#fff;overflow:auto;box-shadow:8px 0 25px #0004}
+.drawer-head{padding:20px;color:#fff;background:linear-gradient(120deg,#164fe8,#10b9d8);display:flex;align-items:center}.drawer-head b{font-size:21px;flex:1}
+.drawer-close{background:#ffffff22;color:#fff;border-radius:50%;width:36px;height:36px}.menu-list{padding:10px}
+.menu-item{width:100%;display:flex;gap:12px;align-items:center;padding:12px 13px;background:#fff;border-radius:13px;text-align:left;color:#182033}.menu-item:hover{background:#eef4ff}
+.blood-groups{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0 18px}.blood-group{border:0;border-radius:16px;padding:13px 8px;background:linear-gradient(135deg,#d50c69,#f13c8c);color:#fff;font-size:18px;font-weight:900;box-shadow:0 4px 10px #0002}
+.blood-group.active{outline:3px solid #111827;outline-offset:2px;transform:translateY(-1px)}.blood-title{font-size:18px;font-weight:900;margin:4px 0 10px}
+.blood-badge{display:inline-block;background:#ffe7f0;color:#c20b5e;border-radius:20px;padding:5px 10px;font-weight:900;margin:5px 0}
+.category-tabs{display:flex;gap:7px;overflow:auto;padding-bottom:8px;margin-bottom:8px}.category-tabs button{white-space:nowrap;border-radius:20px;padding:8px 12px;background:#edf3ff;color:#1758e8;font-weight:800}
+.category-tabs button.active{background:#1768e5;color:#fff}.video-box{background:#0b1220;border-radius:17px;overflow:hidden;margin-top:10px}
+.video-box iframe{width:100%;height:320px;border:0;display:block}.video-box video{width:100%;max-height:420px;display:block}.video-note{padding:8px 12px;color:#cbd5e1;font-size:12px}
+.prayer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}.prayer-card{padding:10px;border-radius:12px;background:#edf8f5;text-align:center}
+body.dark .prayer-card{background:#12352d}.prayer-card b{display:block;font-size:18px}.prayer-card small{color:#0b8a68}
+.quran-text{background:#fffdf5;border-radius:16px;padding:12px;margin-top:12px}body.dark .quran-text{background:#111827}
+.ayah{border-bottom:1px solid #e7e7e7;padding:15px 4px}.ayah-ar{font-family:serif;font-size:25px;line-height:2;text-align:right;direction:rtl}.ayah-bn{font-size:16px;line-height:1.7;margin-top:8px;color:#445}
+body.dark .ayah-bn{color:#d1d5db}.union-item{border-left:5px solid #1551e8}.union-list .item{margin-bottom:10px}
+
+/* ===== AI Assistant Section ===== */
+.ai-box{background:#fff;border-radius:27px;padding:20px;margin-bottom:20px;box-shadow:0 5px 18px #00000012;border:2px solid #8b5cf6}
+.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.ai-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c084fc);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px}
+.ai-title b{font-size:18px;color:#7c3aed;display:block}body.dark .ai-title b{color:#c084fc}
+.ai-title span{font-size:12px;color:#687386}
+.ai-chat-history{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;padding:8px;background:#f8fafc;border-radius:16px}
+body.dark .ai-chat-history{background:#111827}
+.ai-msg{padding:9px 13px;border-radius:14px;max-width:85%;font-size:14px;line-height:1.5}
+.ai-msg.user{background:#7c3aed;color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.ai-msg.bot{background:#eef2ff;color:#1e1b4b;align-self:flex-start;border-bottom-left-radius:2px}
+body.dark .ai-msg.bot{background:#374151;color:#f3f4f6}
+.ai-input-row{display:flex;gap:8px}
+.ai-input-row input{flex:1;padding:11px 15px;border:1px solid #d5dbe5;border-radius:15px;outline:0}
+.ai-input-row button{padding:10px 18px;border-radius:15px;background:#7c3aed;color:#fff;font-weight:700}
+
+/* Gallery and Calendar Styles */
+.gallery-upload-box{background:#f5f8ff;border:2px dashed #1768e5;border-radius:15px;padding:15px;margin-top:8px}
+body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
+.gallery-upload-box input[type=file]{width:100%;padding:10px;border:0;background:transparent}
+.gallery-help{font-size:12px;color:#687386;margin-top:6px}
+.gallery-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.gallery-preview img{width:100%;height:130px;object-fit:cover;border-radius:12px}
+.post-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
+.post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:14px;display:block}
+.real-cal-wrap{background:#fff;border-radius:14px;border:1px solid #ddd;overflow:hidden;text-align:left;color:#222;margin-top:10px}body.dark .real-cal-wrap{background:#1f2937;color:#f3f4f6;border-color:#374151}
+.real-cal-topbanner{width:100%;height:140px;overflow:hidden;background:#0d3b66}.real-cal-topbanner img{width:100%;height:100%;object-fit:cover}
+.real-cal-header{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;background:#f8f9fa;border-bottom:1px solid #eee}body.dark .real-cal-header{background:#111827;border-color:#374151}
+.real-cal-header h3{margin:0;font-size:20px;font-weight:900;color:#111}body.dark .real-cal-header h3{color:#fff}.real-cal-subhead{font-size:13px;font-weight:700;color:#00796b;text-align:right}
+.real-cal-navbtn{background:#1768e5;color:#fff;border:0;padding:5px 10px;border-radius:6px;font-weight:bold}.real-table{width:100%;border-collapse:collapse;text-align:center;font-size:14px}
+.real-table th{background:#f1f3f5;color:#333;padding:8px 2px;border:1px solid #ccc;font-size:13px;font-weight:800}body.dark .real-table th{background:#374151;color:#fff;border-color:#4b5563}
+.real-table td{border:1px solid #ccc;height:55px;vertical-align:top;padding:2px;width:14.28%}body.dark .real-table td{border-color:#4b5563}
+.cell-en{font-size:16px;font-weight:800;display:block;line-height:1.2}.cell-bn{font-size:11px;font-weight:700;display:block;color:#00796b}.cell-ar{font-size:11px;font-weight:700;display:block;color:#d81b60}.day-red .cell-en{color:#d32f2f}
+.holiday-section-box{background:#008000;color:#fff;padding:8px;font-weight:bold;text-align:center;margin-top:10px;border-radius:4px}.holiday-list-box{padding:10px;font-size:13px;max-height:220px;overflow:auto}.holiday-item{padding:5px 0;border-bottom:1px solid #eee}
+.setting-item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eee}body.dark .setting-item{border-color:#374151}
+.switch{position:relative;display:inline-block;width:50px;height:26px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;inset:0;background-color:#ccc;transition:.4s;border-radius:34px}
+.slider:before{position:absolute;content:"";height:18px;width:18px;left:4px;bottom:4px;background-color:white;transition:.4s;border-radius:50%}input:checked+.slider{background-color:#1768e5}input:checked+.slider:before{transform:translateX(24px)}
+.kamare-highlight{border:2px solid #10b978;background:linear-gradient(135deg,#effff8,#fff)}body.dark .kamare-highlight{background:#12352d}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:480px){.hero h1{font-size:29px}.brand{font-size:19px}.grid{gap:10px}.card{min-height:125px}.two{grid-template-columns:1fr}.video-box iframe{height:240px}.prayer-grid{grid-template-columns:repeat(2,1fr)}.post-gallery img{height:145px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <button class="menu-btn" onclick="openMenu()">☰</button>
+  <div class="logo">📱</div>
+  <div class="brand" id="brandTitle">আমাদের কামারের চর</div>
+  <div class="header-actions">
+    <button class="header-search-btn" onclick="toggleSearch()">🔍</button>
+    <button class="refresh" onclick="location.reload()" id="refreshBtn">↻ রিফ্রেশ</button>
+  </div>
+</header>
+
+<div class="search-panel" id="searchPanel">
+  <div class="search-row">
+    <input id="search" type="search" placeholder="নাম, খবর, দোকান, প্রতিষ্ঠান, ফোন বা এলাকা খুঁজুন..." oninput="searchAll(this.value)">
+    <button onclick="clearSearch()">বন্ধ</button>
+  </div>
+</div>
+
+<section class="hero">
+  <h1 id="heroTitle">আমাদের কামারের চর</h1>
+  <p id="heroSub">কামারের চর • সব খবর • সব সেবা • একসাথে</p>
+  <div class="date" id="date" onclick="openCalendarModal()"></div>
+</section>
+
+<div class="notice" onclick="openNoticeList()">
+  <marquee scrollamount="5" id="noticeText">📢 নোটিশ : আমাদের কামারের চর অ্যাপে স্বাগতম — সকল জরুরি সেবা, খবর ও তথ্য এক ক্লিকেই।</marquee>
+</div>
+
+<main class="wrap">
+<section class="section" id="searchSection" style="display:none">
+  <div class="section-title" id="searchTitle" style="background:linear-gradient(100deg,#1758e8,#20b7dc)">🔎 খোঁজার ফলাফল</div>
+  <div class="section-body" id="searchResults"></div>
+</section>
+
+<div id="homeSections"></div>
+
+<!-- AI Assistant Box -->
+<section class="ai-box">
+  <div class="ai-header">
+    <div class="ai-avatar">🤖</div>
+    <div class="ai-title">
+      <b>এআই সহকারী (AI Assistant)</b>
+      <span>কামারের চরের তথ্য বা যেকোনো প্রশ্ন জিজ্ঞাসা করুন</span>
+    </div>
+  </div>
+  <div class="ai-chat-history" id="aiChatHistory">
+    <div class="ai-msg bot">👋 আসসালামু আলাইকুম! আমি 'আমাদের কামারের চর' AI সহকারী। আপনাকে কীভাবে সাহায্য করতে পারি?</div>
+  </div>
+  <div class="ai-input-row">
+    <input id="aiInput" placeholder="এখানে প্রশ্ন লিখুন..." onkeydown="if(event.key==='Enter')askAI()">
+    <button onclick="askAI()">পাঠান</button>
+  </div>
+</section>
+
+<button class="admin-btn" onclick="openPin()" id="adminPanelBtn">🔒 এডমিন প্যানেল প্রবেশ</button>
+</main>
+
+<footer class="footer">
+  <span id="footerText">© ২০২৬ আমাদের কামারের চর</span><br>
+  <small id="footerSub">কামারের চর • সব খবর • সব সেবা • একসাথে</small>
+</footer>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-bg" onclick="closeMenu()"></div>
+  <aside class="drawer-panel">
+    <div class="drawer-head"><b id="menuTitle">☰ সব ক্যাটাগরি</b><button class="drawer-close" onclick="closeMenu()">×</button></div>
+    <div class="menu-list" id="menuList"></div>
+  </aside>
+</div>
+
+<div class="modal" id="categoryModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="catTitle"></h2><button class="close" onclick="closeModal('categoryModal')">×</button></div>
+    <div class="modal-body" id="catBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="noticeModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>📢 নোটিশ ও বিজ্ঞপ্তি</h2><button class="close" onclick="closeModal('noticeModal')">×</button></div>
+    <div class="modal-body" id="noticeModalBody"></div>
+  </div>
+</div>
+
+<div class="modal" id="pinModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>🔐 এডমিন প্যানেল লগইন</h2><button class="close" onclick="closeModal('pinModal')">×</button></div>
+    <div class="modal-body">
+      <div class="field"><label>পিন নম্বর</label><input id="pin" type="password" inputmode="numeric" placeholder="••••" autocomplete="off" onkeydown="if(event.key==='Enter')login()"></div>
+      <div id="firebaseAdminFields" style="display:none">
+        <div class="field"><label>Firebase Admin Email</label><input id="adminEmailInput" type="email" inputmode="email" autocomplete="username" placeholder="আপনার Firebase Admin email"></div>
+        <div class="field"><label>Firebase Password</label><input id="adminPasswordInput" type="password" autocomplete="current-password" placeholder="Firebase password" onkeydown="if(event.key==='Enter')login()"></div>
+        <p class="muted" style="font-size:13px;margin:4px 0 10px">প্রথমবার শুধু Firebase Authentication-এর Admin email ও password দিন। Password কোথাও সংরক্ষণ করা হবে না।</p>
+      </div>
+      <button class="btn" onclick="login()">প্রবেশ</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="adminModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>🔐 এডমিন প্যানেল</h2><button class="close" onclick="closeModal('adminModal')">×</button></div>
+    <div class="modal-body">
+      <div class="actions">
+        <button class="btn green" onclick="openForm()">＋ নতুন তথ্য যোগ</button>
+        <button class="btn purple" onclick="openAddCategoryModal()">📁 নতুন ক্যাটাগরি যোগ</button>
+        <button class="btn secondary" onclick="openForm('',true)">📢 দ্রুত নোটিশ যোগ</button>
+      </div>
+      <div class="field" style="margin-top:12px"><input id="adminSearch" placeholder="এডমিন তথ্য খুঁজুন..." oninput="renderAdmin()"></div>
+      <div id="adminList" class="admin-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Creating New Category -->
+<div class="modal" id="addCategoryModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>📁 নতুন ক্যাটাগরি/প্যানেল তৈরি করুন</h2><button class="close" onclick="closeModal('addCategoryModal')">×</button></div>
+    <div class="modal-body">
+      <form onsubmit="saveCustomCategory(event)">
+        <div class="field"><label>ক্যাটাগরির নাম *</label><input id="newCatName" required placeholder="যেমন: রক্তদান ক্লাব / স্থানীয় বাজার"></div>
+        <div class="field"><label>আইকন (Emoji) *</label><input id="newCatIcon" required placeholder="যেমন: 🛍️ / 🩸 / 🏪"></div>
+        <div class="field"><label>গ্রুপ বা প্যানেল নির্বাচন করুন</label>
+          <select id="newCatGroup">
+            <option value="👤 গণ্যমান্য ব্যক্তিবর্গ ও শিক্ষক প্যানেল">👤 গণ্যমান্য ব্যক্তিবর্গ ও শিক্ষক প্যানেল</option>
+            <option value="🏘️ কামারের চর — স্থানীয় সব তথ্য">🏘️ কামারের চর — স্থানীয় সব তথ্য</option>
+            <option value="🚑 জরুরি সেবা • শেরপুর জেলা">🚑 জরুরি সেবা • শেরপুর জেলা</option>
+            <option value="🕌 ধর্মীয় তথ্য ও তাহফিজুল কোরআন">🕌 ধর্মীয় তথ্য ও তাহফিজুল কোরআন</option>
+            <option value="🏫 প্রতিষ্ঠানসমূহ">🏫 প্রতিষ্ঠানসমূহ</option>
+            <option value="⚽ খেলাধুলা ও লাইভ খেলা">⚽ খেলাধুলা ও লাইভ খেলা</option>
+            <option value="📝 অভিযোগ ও মতামত">📝 অভিযোগ ও মতামত</option>
+            <option value="🏛️ পৌরসভা ও ১৪টি ইউনিয়ন তথ্য">🏛️ পৌরসভা ও ১৪টি ইউনিয়ন তথ্য</option>
+          </select>
+        </div>
+        <button class="btn green" type="submit">💾 তৈরি করুন</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="formModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="formTitle">➕ নতুন তথ্য</h2><button class="close" onclick="closeModal('formModal')">×</button></div>
+    <div class="modal-body">
+      <form id="itemForm" onsubmit="saveItem(event)">
+        <input type="hidden" id="editId">
+        <div class="field"><label>ক্যাটাগরি *</label><select id="fCategory" required onchange="toggleFields()"></select></div>
+        <div class="field" id="kamareTypeField" style="display:none"><label>কামারের চর তথ্যের ধরন</label>
+          <select id="fKamareType"><option>খবর</option><option>খেলাধুলা</option><option>বিজ্ঞপ্তি</option><option>প্রতিষ্ঠান</option><option>দোকান</option><option>অন্যান্য</option></select>
+        </div>
+        <div class="field"><label>নাম/শিরোনাম *</label><input id="fTitle" required></div>
+        <div class="field"><label>সংক্ষিপ্ত তথ্য</label><input id="fSubtitle"></div>
+        <div class="field" id="bloodGroupField" style="display:none">
+          <label>রক্তের গ্রুপ</label>
+          <select id="fBloodGroup"><option value="">রক্তের গ্রুপ নির্বাচন করুন</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+        </div>
+        <div class="two">
+          <div class="field"><label>ফোন</label><input id="fPhone" type="tel"></div>
+          <div class="field"><label>ঠিকানা/এলাকা</label><input id="fAddress"></div>
+        </div>
+        <div class="field"><label>বিস্তারিত</label><textarea id="fDesc"></textarea></div>
+
+        <!-- Gallery upload -->
+        <div class="field" id="galleryUploadField" style="display:none">
+          <label>🖼️ Gallery থেকে পোস্টার / ছবি</label>
+          <div class="gallery-upload-box">
+            <input id="fGallery" type="file" accept="image/*" multiple onchange="previewGallery(this)">
+            <div class="gallery-help">📱 মোবাইলের Gallery থেকে এক বা একাধিক পোস্টার/ছবি নির্বাচন করুন। সর্বোচ্চ ৮টি ছবি।</div>
+            <div id="galleryPreview" class="gallery-preview"></div>
+          </div>
+        </div>
+
+        <div class="field"><label>ছবির URL (ঐচ্ছিক)</label><input id="fImage" type="url" placeholder="https://..."></div>
+        <div class="field"><label>ভিডিও/ফেসবুক লাইভ/ইউটিউব লিংক (ঐচ্ছিক)</label><input id="fVideo" type="url" placeholder="https://facebook.com/... অথবা https://youtube.com/..."></div>
+        <div class="field"><label>Google Maps লিংক (ঐচ্ছিক)</label><input id="fMap" type="url" placeholder="https://maps.google.com/..."></div>
+        <button class="btn" type="submit">💾 সংরক্ষণ</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="calendarModal">
+  <div class="modal-box" style="width:min(450px,100%)">
+    <div class="modal-head"><h2>📅 বাংলা, ইংরেজি ও হিজরি ক্যালেন্ডার</h2><button class="close" onclick="closeModal('calendarModal')">×</button></div>
+    <div class="modal-body" style="padding:10px"><div id="modalCalendarContainer"></div></div>
+  </div>
+</div>
+
+<div class="modal" id="profileModal">
+  <div class="modal-box"><div class="modal-head"><h2>👤 ব্যবহারকারী প্রোফাইল</h2><button class="close" onclick="closeModal('profileModal')">×</button></div><div class="modal-body" id="profileModalBody"></div></div>
+</div>
+
+<div class="modal" id="settingsModal">
+  <div class="modal-box"><div class="modal-head"><h2>⚙️ সেটিংস</h2><button class="close" onclick="closeModal('settingsModal')">×</button></div><div class="modal-body">
+    <div class="setting-item"><span>ডার্ক মোড</span><label class="switch"><input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode(this.checked)"><span class="slider"></span></label></div>
+    <div class="setting-item"><span>ভাষা: <b id="langNameDisplay">বাংলা</b></span><button class="btn secondary" onclick="toggleLanguage()">ভাষা বদলান</button></div>
+    <div class="setting-item"><span>ব্রাউজার নোটিফিকেশন</span><label class="switch"><input type="checkbox" id="notifToggle" onchange="toggleNotification(this.checked)"><span class="slider"></span></label></div>
+  </div></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore-compat.js"></script>
+<script>
+// ===== Firebase configuration =====
+const firebaseConfig = {
+  apiKey: "AIzaSyAUW_n2k5ta5GK2CvDRrrKtHhAqQtIDhfg",
+  authDomain: "amaderkamarerchar-2cb58.firebaseapp.com",
+  projectId: "amaderkamarerchar-2cb58",
+  storageBucket: "amaderkamarerchar-2cb58.firebasestorage.app",
+  messagingSenderId: "386303742100",
+  appId: "1:386303742100:web:c435b4319effa093d16481",
+  measurementId: "G-ZL5LK8X8QS"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+let firebaseReady = false;
+let remoteItems = new Map();
+let remoteCats = new Map();
+
+// ===== Admin Firebase account =====
+// আপনার Firebase Authentication-এ তৈরি করা Admin email এখানে লিখুন।
+// Password কখনো HTML-এ লিখবেন না। Login-এর সময় password নেওয়া হবে।
+const ADMIN_UID = "eZka93AoInZpZHu3hxGdRDM1MFG2";
+const ADMIN_EMAIL = localStorage.getItem('amader_admin_email') || "YOUR_ADMIN_EMAIL_HERE";
+
+const PIN='6822';
+
+let defaultCats=[
+['কামারের চর','🏘️','#008d68','#11b978'],['গণ্যমান্য ব্যক্তিবর্গ','👥','#008d68','#11b978'],['শিক্ষক প্যানেল','👨‍🏫','#6716db','#b04df2'],
+['পুলিশ','🛡️','#1551e8','#3779f4'],['ফায়ার সার্ভিস','🧯','#e96500','#f58616'],['অ্যাম্বুলেন্স','🚑','#008d68','#11b978'],['হাসপাতাল ও ডায়াগনস্টিক','🏥','#dc1641','#ef315c'],['বিশেষজ্ঞ ডাক্তার','👨‍⚕️','#6716db','#b04df2'],['পল্লী বিদ্যুৎ','⚡','#e89000','#f4b000'],['রক্তদাতা তালিকা','🩸','#d50c69','#f13c8c'],['জরুরি হটলাইন','📞','#1551e8','#3779f4'],
+['আজকের নোটিশ','📢','#dc1641','#ef315c'],['ইউনিয়ন নোটিশ','🏛️','#e96500','#f58616'],['সরকারি ঘোষণা','📜','#e89000','#f4b000'],['শিক্ষা নোটিশ','🎓','#e96500','#f58616'],
+['তাহফিজুল কোরআন','📖','#008d68','#11b978'],['নামাজের সময়','⏰','#008d68','#11b978'],['মসজিদ','🕌','#0789bb','#20b7dc'],['মাদ্রাসা','🏫','#008d68','#11b978'],['মাহফিল','🎙️','#008d68','#11b978'],['সাহরি ও ইফতার','📅','#0789bb','#20b7dc'],
+['সামাজিক সংগঠন','🏢','#d50c69','#f13c8c'],['প্রাথমিক বিদ্যালয়','🏫','#1551e8','#3779f4'],['উচ্চ বিদ্যালয়','🏫','#e96500','#f58616'],['প্রাইভেট স্কুল','🏫','#008d68','#11b978'],['কোচিং সেন্টার','📚','#6716db','#b04df2'],['কলেজ','🏛️','#008d68','#11b978'],['অন্যান্য প্রতিষ্ঠান','🏢','#0789bb','#20b7dc'],
+['লাইভ ক্রিকেট স্কোর','🏏','#dc1641','#ef315c'],['লাইভ ফুটবল','⚽','#1551e8','#3779f4'],['জাতীয় দিবস','🇧🇩','#0789bb','#20b7dc'],['স্থানীয় অনুষ্ঠান','🎉','#008d68','#11b978'],
+['অভিযোগ ও মতামত','📝','#e89000','#f4b000'],['পৌরসভা ও ১৪টি ইউনিয়ন তথ্য','🏛️','#1551e8','#12b9d8']
+];
+
+function getCats(){
+  let custom=JSON.parse(localStorage.getItem('amader_custom_cats')||'[]');
+  if(!Array.isArray(custom))custom=[];
+  const local=custom.map(x=>[x[0],x[1],x[2]||'#008d68',x[3]||'#11b978']);
+  const remote=[...remoteCats.values()].filter(x=>!x._deleted&&x.name&&x.icon).map(x=>[x.name,x.icon,x.c1||'#008d68',x.c2||'#11b978']);
+  const map=new Map([...local,...remote].map(x=>[x[0],x]));
+  return [...defaultCats,...map.values()];
+}
+
+function syncRemoteCategoryGroups(){
+  const defaults={
+    'গণ্যমান্য ব্যক্তিবর্গ ও শিক্ষক প্যানেল':['গণ্যমান্য ব্যক্তিবর্গ','শিক্ষক প্যানেল'],
+    '🏘️ কামারের চর — স্থানীয় সব তথ্য':['কামারের চর'],
+    '🚑 জরুরি সেবা • শেরপুর জেলা':['পুলিশ','ফায়ার সার্ভিস','অ্যাম্বুলেন্স','হাসপাতাল ও ডায়াগনস্টিক','বিশেষজ্ঞ ডাক্তার','পল্লী বিদ্যুৎ','রক্তদাতা তালিকা','জরুরি হটলাইন'],
+    '🕌 ধর্মীয় তথ্য ও তাহফিজুল কোরআন':['তাহফিজুল কোরআন','নামাজের সময়','মসজিদ','মাদ্রাসা','মাহফিল','সাহরি ও ইফতার'],
+    '🏫 প্রতিষ্ঠানসমূহ':['প্রাথমিক বিদ্যালয়','উচ্চ বিদ্যালয়','প্রাইভেট স্কুল','কোচিং সেন্টার','কলেজ','মাদ্রাসা','অন্যান্য প্রতিষ্ঠান','সামাজিক সংগঠন'],
+    '⚽ খেলাধুলা ও লাইভ খেলা':['লাইভ ক্রিকেট স্কোর','লাইভ ফুটবল','জাতীয় দিবস','স্থানীয় অনুষ্ঠান'],
+    '📝 অভিযোগ ও মতামত':['অভিযোগ ও মতামত'],
+    '🏛️ পৌরসভা ও ১৪টি ইউনিয়ন তথ্য':['পৌরসভা ও ১৪টি ইউনিয়ন তথ্য']
+  };
+  groups.forEach(g=>{g[1]=[...(defaults[g[0]]||g[1])];});
+  remoteCats.forEach(c=>{
+    if(c._deleted||!c.name)return;
+    const grp=groups.find(g=>g[0]===c.group);
+    if(grp&&!grp[1].includes(c.name))grp[1].push(c.name);
+  });
+}
+
+let groups=[
+['👤 গণ্যমান্য ব্যক্তিবর্গ ও শিক্ষক প্যানেল',['গণ্যমান্য ব্যক্তিবর্গ','শিক্ষক প্যানেল'],['#008d68','#11b978']],
+['🏘️ কামারের চর — স্থানীয় সব তথ্য',['কামারের চর'],['#008d68','#11b978']],
+['🚑 জরুরি সেবা • শেরপুর জেলা',['পুলিশ','ফায়ার সার্ভিস','অ্যাম্বুলেন্স','হাসপাতাল ও ডায়াগনস্টিক','বিশেষজ্ঞ ডাক্তার','পল্লী বিদ্যুৎ','রক্তদাতা তালিকা','জরুরি হটলাইন'],['#1758ed','#12aee8']],
+['🕌 ধর্মীয় তথ্য ও তাহফিজুল কোরআন',['তাহফিজুল কোরআন','নামাজের সময়','মসজিদ','মাদ্রাসা','মাহফিল','সাহরি ও ইফতার'],['#008d68','#11b978']],
+['🏫 প্রতিষ্ঠানসমূহ',['প্রাথমিক বিদ্যালয়','উচ্চ বিদ্যালয়','প্রাইভেট স্কুল','কোচিং সেন্টার','কলেজ','মাদ্রাসা','অন্যান্য প্রতিষ্ঠান','সামাজিক সংগঠন'],['#1758ed','#12aee8']],
+['⚽ খেলাধুলা ও লাইভ খেলা',['লাইভ ক্রিকেট স্কোর','লাইভ ফুটবল','জাতীয় দিবস','স্থানীয় অনুষ্ঠান'],['#d80d46','#f03d71']],
+['📝 অভিযোগ ও মতামত',['অভিযোগ ও মতামত'],['#e89000','#f4b000']],
+['🏛️ পৌরসভা ও ১৪টি ইউনিয়ন তথ্য',['পৌরসভা ও ১৪টি ইউনিয়ন তথ্য'],['#1551e8','#12b9d8']]
+];
+
+const seed=[
+['পুলিশ','শেরপুর জেলা পুলিশ','জরুরি পুলিশ সহায়তা','999','শেরপুর জেলা','জরুরি প্রয়োজনে কল করুন।'],
+['ফায়ার সার্ভিস','ফায়ার সার্ভিস ও সিভিল ডিফেন্স','অগ্নি ও উদ্ধার সেবা','16163','শেরপুর জেলা','আগুন বা উদ্ধার জরুরিতে যোগাযোগ করুন।'],
+['অ্যাম্বুলেন্স','জরুরি অ্যাম্বুলেন্স','২৪ ঘণ্টা সেবা','999','শেরপুর','জরুরি রোগী পরিবহনের জন্য যোগাযোগ করুন।'],
+['হাসপাতাল ও ডায়াগনস্টিক','শেরপুর সদর হাসপাতাল','সরকারি হাসপাতাল','','শেরপুর সদর, শেরপুর','হাসপাতাল ও চিকিৎসা সংক্রান্ত তথ্য।'],
+['বিশেষজ্ঞ ডাক্তার','বিশেষজ্ঞ ডাক্তার তালিকা','ডাক্তার ও চেম্বার তথ্য','','শেরপুর','নাম, বিশেষত্ব, চেম্বার, সময় ও যোগাযোগ নম্বর অ্যাডমিন যোগ করবেন।'],
+['পল্লী বিদ্যুৎ','শেরপুর পল্লী বিদ্যুৎ','বিদ্যুৎ অভিযোগ','16899','শেরপুর','বিদ্যুৎ সংযোগ, বিল ও অভিযোগের তথ্য।'],
+['জরুরি হটলাইন','জাতীয় জরুরি সেবা','জরুরি সহায়তা','999','বাংলাদেশ','পুলিশ, ফায়ার ও অ্যাম্বুলেন্সের জরুরি সহায়তা।'],
+['আজকের নোটিশ','আজকের গুরুত্বপূর্ণ নোটিশ','প্রশাসনিক আপডেট','','','নতুন নোটিশ অ্যাডমিন প্রকাশ করবেন।'],
+['শিক্ষা নোটিশ','শিক্ষা সংক্রান্ত নোটিশ','স্কুল-কলেজ-মাদ্রাসা','','','পরীক্ষা, ভর্তি, ছুটি ও শিক্ষা সংক্রান্ত ঘোষণা।'],
+['মসজিদ','শেরপুরের মসজিদ তালিকা','মসজিদ ও ইমামের তথ্য','','শেরপুর','মসজিদের নাম, ঠিকানা, ইমামের নাম ও ফোন।'],
+['মাদ্রাসা','মাদ্রাসা তালিকা','কওমি/আলিয়া','','শেরপুর','মাদ্রাসার নাম, ঠিকানা, পরিচালক ও যোগাযোগ।'],
+['রক্তদাতা তালিকা','রক্তদাতা ডিরেক্টরি','রক্তের গ্রুপ অনুযায়ী খুঁজুন','','শেরপুর','রক্তদাতার নাম, গ্রুপ, উপজেলা ও ফোন।'],
+['প্রাথমিক বিদ্যালয়','প্রাথমিক বিদ্যালয় তালিকা','বিদ্যালয় তথ্য','','শেরপুর','বিদ্যালয়ের নাম, প্রধান শিক্ষক, ফোন, ঠিকানা।'],
+['উচ্চ বিদ্যালয়','উচ্চ বিদ্যালয় তালিকা','বিদ্যালয় তথ্য','','শেরপুর','বিদ্যালয়ের নাম, প্রধান শিক্ষক, ফোন, ঠিকানা।'],
+['প্রাইভেট স্কুল','প্রাইভেট স্কুল তালিকা','কেজি ও কিন্ডারগার্টেন','','শেরপুর','প্রতিষ্ঠানের নাম, পরিচালনা পরিষদ, ফোন ও ঠিকানা।'],
+['কোচিং সেন্টার','কোচিং সেন্টার তালিকা','শিক্ষা সহায়তা প্রতিষ্ঠান','','শেরপুর','কোচিং সেন্টারের নাম, পরিচালক, ব্যাচ ও বিষয় সংক্রান্ত তথ্য।'],
+['কলেজ','কলেজ তালিকা','উচ্চশিক্ষা প্রতিষ্ঠান','','শেরপুর','কলেজের নাম, অধ্যক্ষ, বিভাগ, ফোন ও ঠিকানা।'],
+['লাইভ ক্রিকেট স্কোর','লাইভ ক্রিকেট','লাইভ স্কোর ও অ্যাডমিনের ভিডিও লিংক','','','স্কোর/ভিডিও লিংক অ্যাডমিন যোগ করতে পারবেন।'],
+['লাইভ ফুটবল','লাইভ ফুটবল','Facebook Live / YouTube / ভিডিও লিংক','','','অ্যাডমিন লাইভ খেলার লিংক দিলে এখানে খেলা দেখা যাবে।'],
+['জাতীয় দিবস','২০২৬ সালের জাতীয় ও সরকারি গুরুত্বপূর্ণ দিবস','সরকারি তালিকা','','বাংলাদেশ','২০২৬ সালের গুরুত্বপূর্ণ জাতীয় দিবস ও সরকারি ছুটির তথ্য।'],
+['স্থানীয় অনুষ্ঠান','স্থানীয় অনুষ্ঠান','আজ ও আসন্ন আয়োজন','','শেরপুর','মেলা, মাহফিল, সাংস্কৃতিক অনুষ্ঠান ও স্থানীয় আয়োজন।'],
+['অভিযোগ ও মতামত','আপনার মতামত ও অভিযোগ','সেবা উন্নয়নে মতামত দিন','','','অভিযোগ/মতামত পাঠাতে নিচের ফর্ম ব্যবহার করুন।']
+].map((x,i)=>({id:'seed'+i,category:x[0],title:x[1],subtitle:x[2],phone:x[3],address:x[4],desc:x[5],image:'',video:'',map:'',bloodGroup:'',kamareType:'',images:[]}));
+
+const kamareSeed=[{id:'kamare-welcome',category:'কামারের চর',kamareType:'খবর',title:'কামারের চর',subtitle:'আমাদের এলাকার নিজস্ব খবর ও তথ্য',phone:'',address:'কামারের চর, শেরপুর',desc:'কামারের চরের সকল খবর, খেলাধুলা, বিজ্ঞপ্তি, প্রতিষ্ঠান, দোকান ও স্থানীয় তথ্য এখানে অ্যাডমিন যোগ করবেন।',image:'',video:'',map:'',images:[]}];
+
+const sherpurSadarUnions=[
+['১নং কামারের চর','কামারের চর'],['২নং চর শেরপুর','চর শেরপুর'],['৩নং বাজিতখילה','বাজিতখילה'],['৪নং গাজীর খামার','গাজীর খামার'],['৫নং ধলা','ধলা'],['৬নং পাকুড়িয়া','পাকুড়িয়া'],['৭নং ভাতশালা','ভাতশালা'],['৮নং লছমনপুর','লছমনপুর'],['৯নং চর মোচারিয়া','চর মোচারিয়া'],['১০নং চর পক্ষীমারী','চর পক্ষীমারী'],['১১নং বলাইচর','বলাইচর'],['১২নং কামারিয়া','কামারিয়া'],['১৩নং রৌহা','রৌহা'],['১৪নং বেতমারী-ঘুঘুরাকান্দি','বেতমারী-ঘুঘুরাকান্দি']
+];
+
+function localData(){
+  let d=JSON.parse(localStorage.getItem('amader_kamare_char_items')||'null');
+  if(!Array.isArray(d))d=[...seed,...kamareSeed];
+  return d.map(x=>({...x,images:Array.isArray(x.images)?x.images:[]}));
+}
+function data(){
+  const local=localData();
+  if(!firebaseReady)return local;
+  const map=new Map(local.map(x=>[x.id,x]));
+  remoteItems.forEach((x,id)=>{if(x._deleted)map.delete(id);else map.set(id,{...x,images:Array.isArray(x.images)?x.images:[]})});
+  return [...map.values()];
+}
+function save(d){localStorage.setItem('amader_kamare_char_items',JSON.stringify(d))}
+
+function startFirebaseSync(){
+  db.collection('appItems').onSnapshot(snap=>{
+    remoteItems=new Map();
+    snap.forEach(doc=>remoteItems.set(doc.id,{id:doc.id,...doc.data()}));
+    firebaseReady=true;
+    save(data());
+    renderMenu();render();
+    if(document.getElementById('adminModal')?.classList.contains('show'))renderAdmin();
+  },err=>{
+    console.error('Firestore listener error:',err);
+    firebaseReady=false;
+    toast('⚠️ অনলাইন ডাটা লোড করা যায়নি। অফলাইন ডাটা দেখানো হচ্ছে।');
+  });
+
+  db.collection('categories').onSnapshot(snap=>{
+    remoteCats=new Map();
+    snap.forEach(doc=>remoteCats.set(doc.id,{id:doc.id,...doc.data()}));
+    syncRemoteCategoryGroups();
+    renderMenu();render();
+  },err=>console.error('Category listener error:',err));
+}
+
+function showFirebaseAdminFields(){
+  const box=document.getElementById('firebaseAdminFields');
+  if(!box)return;
+  box.style.display='block';
+  const emailBox=document.getElementById('adminEmailInput');
+  if(emailBox&&!emailBox.value)emailBox.value=ADMIN_EMAIL&&ADMIN_EMAIL!=='YOUR_ADMIN_EMAIL_HERE'?ADMIN_EMAIL:'';
+  setTimeout(()=>{
+    const target=emailBox&&emailBox.value?document.getElementById('adminPasswordInput'):emailBox;
+    target?.focus();
+  },50);
+}
+
+function firebaseAuthErrorMessage(e){
+  const code=e?.code||'';
+  const map={
+    'auth/invalid-credential':'Email বা password ভুল হয়েছে।',
+    'auth/invalid-login-credentials':'Email বা password ভুল হয়েছে।',
+    'auth/wrong-password':'Firebase password ভুল হয়েছে।',
+    'auth/user-not-found':'এই email দিয়ে Firebase Admin account পাওয়া যায়নি।',
+    'auth/operation-not-allowed':'Firebase Console → Authentication → Sign-in method থেকে Email/Password চালু করুন।',
+    'auth/network-request-failed':'ইন্টারনেট সংযোগ সমস্যা হয়েছে।',
+    'auth/too-many-requests':'অনেকবার চেষ্টা হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।',
+    'auth/user-disabled':'এই Firebase account নিষ্ক্রিয় করা হয়েছে।',
+    'auth/invalid-email':'Firebase Admin email সঠিক নয়.'
+  };
+  return map[code]||('Firebase login ব্যর্থ: '+(e?.message||code||'অজানা সমস্যা'));
+}
+
+async function requireAdminAuth(){
+  if(auth.currentUser?.uid===ADMIN_UID)return true;
+  const fields=document.getElementById('firebaseAdminFields');
+  if(!fields||fields.style.display==='none'){
+    showFirebaseAdminFields();
+    toast('ℹ️ এবার Firebase Admin email ও password দিন');
+    return false;
+  }
+  const email=(document.getElementById('adminEmailInput')?.value||'').trim();
+  const password=document.getElementById('adminPasswordInput')?.value||'';
+  if(!email||!password){toast('❌ Firebase Admin email ও password দিন');return false}
+  try{
+    const cred=await auth.signInWithEmailAndPassword(email,password);
+    if(cred.user.uid!==ADMIN_UID){
+      await auth.signOut();
+      toast('❌ এই Firebase account-এর UID Admin UID-এর সাথে মেলে না');
+      return false;
+    }
+    localStorage.setItem('amader_admin_email',email);
+    return true;
+  }catch(e){
+    console.error('Firebase Admin login error:',e);
+    toast('❌ '+firebaseAuthErrorMessage(e));
+    return false;
+  }
+}
+
+async function syncLocalDataToFirebase(){
+  if(!auth.currentUser||auth.currentUser.uid!==ADMIN_UID)return;
+  const items=localData();
+  for(let i=0;i<items.length;i+=450){
+    const batch=db.batch();
+    items.slice(i,i+450).forEach(x=>batch.set(db.collection('appItems').doc(x.id),x,{merge:true}));
+    await batch.commit();
+  }
+  const custom=JSON.parse(localStorage.getItem('amader_custom_cats')||'[]');
+  if(Array.isArray(custom)){
+    for(const c of custom){
+      if(!c?.[0])continue;
+      const existing=[...remoteCats.values()].find(x=>x.name===c[0]&&!x._deleted);
+      const id=existing?.id||('cat_'+Date.now()+'_'+Math.random().toString(36).slice(2,7));
+      await db.collection('categories').doc(id).set({name:c[0],icon:c[1]||'📌',c1:c[2]||'#008d68',c2:c[3]||'#11b978',group:c[4]||'',_deleted:false},{merge:true});
+    }
+  }
+}
+auth.onAuthStateChanged(user=>{
+  if(user?.uid===ADMIN_UID){
+    syncLocalDataToFirebase().catch(err=>console.error('Automatic migration error:',err));
+  }
+});
+startFirebaseSync();
+function cat(n){return getCats().find(c=>c[0]===n)||[n,'📌','#1551e8','#3779f4']}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function jsq(s){return String(s??'').replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/\r/g,'\\r');}
+function safeUrl(u){try{const x=new URL(u);return ['http:','https:'].includes(x.protocol)?x.href:''}catch(e){return ''}}
+
+let currentLang=localStorage.getItem('amader_lang')||'bn';
+let selectedBloodGroup='সব',selectedKamareType='সব',calYear=2026,calMonth=8;
+
+function render(){
+  let h='';
+  groups.forEach(g=>{
+    h+=`<section class="section"><div class="section-title" style="background:linear-gradient(100deg,${g[2][0]},${g[2][1]})">${g[0]}</div><div class="section-body">`;
+    if(g[1].length===1){const c=cat(g[1][0]);h+=card(c,true)}
+    else h+='<div class="grid">'+g[1].map(n=>card(cat(n))).join('')+'</div>';
+    h+='</div></section>';
+  });
+  document.getElementById('homeSections').innerHTML=h;updateTexts();
+}
+function card(c,big=false){
+  return `<div class="card ${big?'big':''}" style="background:linear-gradient(135deg,${c[2]},${c[3]})" onclick="openCategory('${jsq(c[0])}')"><div class="icon">${c[1]}</div><b>${esc(c[0])}</b></div>`;
+}
+
+/* AI Assistant Logic */
+function askAI(){
+  const inp=document.getElementById('aiInput'),history=document.getElementById('aiChatHistory');
+  const txt=inp.value.trim();if(!txt)return;
+  
+  history.innerHTML+=`<div class="ai-msg user">${esc(txt)}</div>`;
+  inp.value='';history.scrollTop=history.scrollHeight;
+
+  setTimeout(()=>{
+    let reply="ধন্যবাদ প্রশ্ন করার জন্য। আমি কামারের চর অ্যাপের AI সহায়ক। ";
+    const q=txt.toLowerCase();
+    
+    // AI Knowledge Base Matching
+    const matchedItems=data().filter(x=>[x.title,x.category,x.desc,x.address].join(' ').toLowerCase().includes(q));
+    
+    if(q.includes('রক্ত')||q.includes('blood'))reply+="আমাদের অ্যাপে রক্তদাতা তালিকায় যুক্ত হয়ে সরাসরি রক্তদাতার ফোন নম্বর পাওয়া যায়।";
+    else if(q.includes('পুলিশ')||q.includes('থানা'))reply+="জরুরি প্রয়োজনে শেরপুর জেলা পুলিশ বা জাতীয় জরুরি সেবা ৯৯৯ নম্বরে কল দিতে পারেন।";
+    else if(q.includes('হাসপাতাল')||q.includes('ডাক্তার'))reply+="শেরপুর সদর হাসপাতাল ও বিশেষজ্ঞদের তথ্য হাসপাতাল প্যানেলে সংরক্ষিত আছে।";
+    else if(matchedItems.length>0)reply+=`আপনার প্রশ্নের সাথে সম্পর্কিত তথ্য পাওয়া গেছে: "${matchedItems[0].title}" (${matchedItems[0].category})। বিস্তারিত জানতে মেন্যু থেকে নির্দিষ্ট ক্যাটাগরি দেখুন।`;
+    else reply+="আপনার প্রয়োজনীয় তথ্যটি এডমিন প্যানেল থেকে খুব শীঘ্রই হালনাগাদ করা হবে। প্রয়োজনে আপনার মতামত ফর্মে লিখে আমাদের পাঠাতে পারেন।";
+
+    history.innerHTML+=`<div class="ai-msg bot">${esc(reply)}</div>`;
+    history.scrollTop=history.scrollHeight;
+  },600);
+}
+
+function openAddCategoryModal(){
+  document.getElementById('addCategoryModal').classList.add('show');
+}
+async function saveCustomCategory(e){
+  e.preventDefault();
+  const name=newCatName.value.trim(),icon=newCatIcon.value.trim(),grpName=newCatGroup.value;
+  if(!name||!icon)return;
+  if(!(await requireAdminAuth()))return;
+
+  let custom=JSON.parse(localStorage.getItem('amader_custom_cats')||'[]');
+  const existingIndex=custom.findIndex(x=>x[0]===name);
+  const catValue=[name,icon,'#008d68','#11b978',grpName];
+  if(existingIndex<0)custom.push(catValue);else custom[existingIndex]=catValue;
+  localStorage.setItem('amader_custom_cats',JSON.stringify(custom));
+
+  try{
+    await db.collection('categories').doc('cat_'+Date.now()).set({name,icon,c1:'#008d68',c2:'#11b978',group:grpName,_deleted:false});
+  }catch(err){console.error(err);toast('❌ ক্যাটাগরি Firebase-এ সংরক্ষণ হয়নি');return}
+
+  let grp=groups.find(g=>g[0]===grpName);
+  if(grp&&!grp[1].includes(name))grp[1].push(name);
+  closeModal('addCategoryModal');renderMenu();render();
+  toast('✅ নতুন ক্যাটাগরি সফলভাবে তৈরি ও সিঙ্ক হয়েছে!');
+}
+
+function openCategory(name){
+  const c=cat(name);selectedBloodGroup='সব';selectedKamareType='সব';
+  let body=`<div id="specialTop"></div><div class="field"><input id="catSearch" placeholder="এই ক্যাটাগরির তথ্য খুঁজুন..." oninput="renderCat('${jsq(name)}')"></div><div id="catItems"></div>`;
+  if(name==='কামারের চর'){
+    body=`<div class="kamare-highlight item"><h3>🏘️ কামারের চর</h3><p>কামারের চরের সকল খবর, খেলাধুলা, বিজ্ঞপ্তি, প্রতিষ্ঠান ও দোকানের তথ্য এক জায়গায়।</p></div>
+    <div class="category-tabs" id="kamareTabs">${['সব','খবর','খেলাধুলা','বিজ্ঞপ্তি','প্রতিষ্ঠান','দোকান','অন্যান্য'].map(x=>`<button class="${x==='সব'?'active':''}" onclick="filterKamareType('${jsq(x)}')">${x}</button>`).join('')}</div>
+    <div class="field"><input id="catSearch" placeholder="কামারের চর: খবর/দোকান/প্রতিষ্ঠান খুঁজুন..." oninput="renderCat('${jsq(name)}')"></div><div id="catItems"></div>`;
+  }
+  if(name==='রক্তদাতা তালিকা'){
+    body=`<div class="blood-title">🩸 রক্তের গ্রুপ নির্বাচন করুন</div><div class="blood-groups">${['সব','A+','A-','B+','B-','AB+','AB-','O+','O-'].map(g=>`<button class="blood-group ${g==='সব'?'active':''}" onclick="filterBlood('${jsq(g)}')">${g}</button>`).join('')}</div>
+    <div class="field"><input id="catSearch" placeholder="রক্তদাতার নাম/এলাকা/ফোন খুঁজুন..." oninput="renderCat('${jsq(name)}')"></div><div id="catItems"></div>`;
+  }
+  if(name==='নামাজের সময়')body+=`<div class="item"><h3>🕌 শেরপুরের নামাজের সময়</h3><div id="catPrayerDate">সময় লোড হচ্ছে...</div><div class="prayer-grid" id="catPrayerGrid"></div><p class="source">ইন্টারনেট থাকলে আজকের সময় API থেকে নেওয়া হবে।</p></div>`;
+  if(name==='জাতীয় দিবস')body+=`<div id="catHolidayList"></div>`;
+  if(name==='লাইভ ফুটবল')body+=`<div class="item"><span class="badge-live">🔴 LIVE</span><h3>⚽ লাইভ ফুটবল</h3><p class="muted">অ্যাডমিন Facebook Live, YouTube বা সরাসরি ভিডিও লিংক যোগ করলে নিচে খেলা দেখা যাবে।</p><div id="catSportsList"></div></div>`;
+  if(name==='লাইভ ক্রিকেট স্কোর')body+=`<div class="item"><h3>🏏 লাইভ ক্রিকেট</h3><p class="muted">অ্যাডমিন ক্রিকেট লাইভ ভিডিও লিংক দিলে নিচে দেখা যাবে।</p><div id="catSportsList"></div></div>`;
+  if(name==='তাহফিজুল কোরআন')body+=`<div class="item"><h3>📖 পবিত্র কুরআন পড়ুন</h3><div class="two"><div class="field"><label>সূরা</label><select id="surahSelect" onchange="loadQuran(this.value)"></select></div><div class="field"><label>অনুবাদ</label><select id="quranEdition" onchange="loadQuran(document.getElementById('surahSelect').value)"><option value="bn.bengali">বাংলা</option><option value="en.asad">English</option></select></div></div><div id="quranText" class="quran-text">লোড হচ্ছে...</div></div>`;
+  if(name==='পৌরসভা ও ১৪টি ইউনিয়ন তথ্য')body=`<div id="unionList" class="union-list"></div>`;
+  if(name==='অভিযোগ ও মতামত')body+=`<hr><h3>📝 সরাসরি অভিযোগ/মতামত</h3><div class="field"><label>আপনার নাম</label><input id="fbName"></div><div class="field"><label>ফোন</label><input id="fbPhone"></div><div class="field"><label>বিস্তারিত</label><textarea id="fbText"></textarea></div><button class="btn" onclick="sendFeedback()">পাঠান</button>`;
+  document.getElementById('catTitle').textContent=c[1]+' '+name;document.getElementById('catBody').innerHTML=body;renderCat(name);document.getElementById('categoryModal').classList.add('show');
+  if(name==='নামাজের সময়')loadPrayer();if(name==='জাতীয় দিবস')renderHolidays('catHolidayList');if(name==='লাইভ ফুটবল')renderSports('football');if(name==='লাইভ ক্রিকেট স্কোর')renderSports('cricket');if(name==='তাহফিজুল কোরআন')initQuran();if(name==='পৌরসভা ও ১৪টি ইউনিয়ন তথ্য')renderSherpurUnions();
+}
+function filterBlood(group){selectedBloodGroup=group;document.querySelectorAll('.blood-group').forEach(b=>b.classList.toggle('active',b.textContent===group));renderCat('রক্তদাতা তালিকা')}
+function filterKamareType(type){selectedKamareType=type;document.querySelectorAll('#kamareTabs button').forEach(b=>b.classList.toggle('active',b.textContent===type));renderCat('কামারের চর')}
+
+function renderCat(name){
+  if(name==='পৌরসভা ও ১৪টি ইউনিয়ন তথ্য'){renderSherpurUnions();return}
+  const box=document.getElementById('catItems');if(!box)return;
+  const q=(document.getElementById('catSearch')?.value||'').trim().toLowerCase();
+  let list=data().filter(x=>x.category===name&&!(name==='রক্তদাতা তালিকা'&&String(x.id||'').startsWith('blood-placeholder-'))&&(name!=='রক্তদাতা তালিকা'||selectedBloodGroup==='সব'||x.bloodGroup===selectedBloodGroup)&&(name!=='কামারের চর'||selectedKamareType==='সব'||x.kamareType===selectedKamareType)&&[x.category,x.kamareType,x.title,x.subtitle,x.address,x.desc,x.phone,x.bloodGroup].join(' ').toLowerCase().includes(q));
+  box.innerHTML=list.length?list.map(itemHtml).join(''):`<p class="muted" style="text-align:center;padding:20px">এখনও কোনো তথ্য পাওয়া যায়নি। এডমিন থেকে তথ্য যোগ করুন।</p>`;
+}
+
+function itemHtml(x){
+  const phone=esc(x.phone||''),video=safeUrl(x.video||''),map=safeUrl(x.map||''),media=x.image?safeUrl(x.image):'';
+  let html=`<article class="item">`;
+  if(Array.isArray(x.images)&&x.images.length){
+    const imgs=x.images.filter(v=>String(v).startsWith('data:image/'));
+    if(imgs.length){
+      html+=`<div class="post-gallery">${imgs.map(img=>`<img src="${img}" alt="পোস্টার" loading="lazy" onerror="this.style.display='none'">`).join('')}</div>`;
+    }
+  }
+  if(media)html+=`<img src="${esc(media)}" alt="" style="width:100%;max-height:220px;border-radius:14px;object-fit:cover;margin-bottom:10px" onerror="this.style.display='none'">`;
+  html+=`<h3>${esc(x.title)}</h3>`;
+  if(x.kamareType)html+=`<span class="pill">🏘️ ${esc(x.kamareType)}</span>`;
+  if(x.bloodGroup)html+=`<span class="blood-badge">🩸 ${esc(x.bloodGroup)}</span>`;
+  if(x.subtitle)html+=`<span class="pill">${esc(x.subtitle)}</span>`;
+  if(x.address)html+=`<p>📍 ${esc(x.address)}</p>`;
+  if(x.desc)html+=`<p>${esc(x.desc)}</p>`;
+  if(x.category==='লাইভ ফুটবল'||x.category==='লাইভ ক্রিকেট স্কোর')html+=renderVideoHtml(video);
+  if(x.phone||video||map)html+=`<div class="actions">${x.phone?`<a class="btn green" href="tel:${phone}">📞 কল ${phone}</a>`:''}${map?`<a class="btn" href="${esc(map)}" target="_blank" rel="noopener">🗺️ ম্যাপ</a>`:''}${video?`<a class="watch" href="${esc(video)}" target="_blank" rel="noopener">▶️ লিংক খুলুন</a>`:''}</div>`;
+  html+=`</article>`;return html;
+}
+
+function renderVideoHtml(url){
+  if(!url)return '';
+  const u=encodeURIComponent(url);
+  if(/youtube\.com|youtu\.be/i.test(url)){
+    let id='';try{const x=new URL(url);if(x.hostname.includes('youtu.be'))id=x.pathname.slice(1);else id=x.searchParams.get('v')||x.pathname.split('/').pop()}catch(e){}
+    if(id)return `<div class="video-box"><iframe src="https://www.youtube.com/embed/${encodeURIComponent(id)}" title="লাইভ খেলা" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe><div class="video-note">YouTube ভিডিও</div></div>`;
+  }
+  if(/facebook\.com|fb\.watch/i.test(url))return `<div class="video-box"><iframe src="https://www.facebook.com/plugins/video.php?href=${u}&show_text=false&width=500" title="Facebook Live" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe><div class="video-note">Facebook Live — ভিডিওটি পাবলিক হলে এখানে দেখা যাবে।</div></div>`;
+  if(/\.(mp4|webm|ogg)(\?.*)?$/i.test(url))return `<div class="video-box"><video controls playsinline src="${esc(url)}"></video><div class="video-note">সরাসরি ভিডিও</div></div>`;
+  return `<div class="item" style="background:#101827;color:#fff"><p>ভিডিও প্লেয়ারটি এই লিংক সরাসরি চালাতে পারছে না। নিচের বাটনে চাপ দিয়ে ভিডিও খুলুন।</p></div>`;
+}
+function renderSports(kind){
+  const box=document.getElementById('catSportsList');if(!box)return;
+  const category=kind==='football'?'লাইভ ফুটবল':'লাইভ ক্রিকেট স্কোর',list=data().filter(x=>x.category===category&&x.video);
+  box.innerHTML=list.length?list.map(itemHtml).join(''):`<p class="muted" style="padding:15px 0">এখনও কোনো লাইভ খেলার লিংক যোগ করা হয়নি। এডমিন প্যানেল থেকে ${kind==='football'?'ফুটবল':'ক্রিকেট'} লাইভ লিংক যোগ করুন।</p>`;
+}
+
+const surahNames=['আল-ফাতিহা','আল-বাকারা','আলে ইমরান','আন-নিসা','আল-মায়িদা','আল-আনআম','আল-আরাফ','আল-আনফাল','আত-তাওবা','ইউনুস','হুদ','ইউসুফ','আর-রাদ','ইবরাহিম','আল-হিজর','আন-নাহল','আল-ইসরা','আল-কাহফ','মারইয়াম','ত্বা-হা','আল-আম্বিয়া','আল-হাজ্জ','আল-মুমিনুন','আন-নূর','আল-ফুরকান','আশ-শুআরা','আন-নামল','আল-কাসাস','আল-আনকাবুত','আর-রূম','লুকমান','আস-সাজদাহ','আল-আহযাব','সাবা','ফাতির','ইয়াসিন','আস-সাফফাত','সাদ','আয-যুমার','গাফির','ফুসসিলাত','আশ-শুরা','আয-যুখরুফ','আদ-দুখান','আল-জাসিয়া','আল-আহকাফ','মুহাম্মদ','আল-ফাতহ','আল-হুজুরাত','কাফ','আয-যারিয়াত','আত-তূর','আন-নাজম','আল-কামার','আর-রহমান','আল-ওয়াকিয়া','আল-হাদিদ','আল-মুজাদিলাহ','আল-হাশর','আল-মুমতাহিনাহ','আস-সাফ','আল-জুমুআহ','আল-মুনাফিকুন','আত-তাগাবুন','আত-তালাক','আত-তাহরিম','আল-মুলক','আল-কলম','আল-হাক্কাহ','আল-মাআরিজ','নূহ','আল-জিন','আল-মুযযাম্মিল','আল-মুদ্দাসসির','আল-কিয়ামাহ','আল-ইনসান','আল-মুরসালাত','আন-নাবা','আন-নাযিয়াত','আবাসা','আত-তাকভীর','আল-ইনফিতার','আল-মুতাফফিফিন','আল-ইনশিকাক','আল-বুরুজ','আত-তারিক','আল-আলা','আল-গাশিয়াহ','আল-ফজর','আল-বালাদ','আশ-শামস','আল-লাইল','আদ-দুহা','আশ-শরহ','আত-তিন','আল-আলাক','আল-কদর','আল-বাইয়্যিনাহ','আয-যিলযাল','আল-আদিয়াত','আল-কারিয়াহ','আত-তাকাসুর','আল-আসর','আল-হুমাযাহ','আল-ফীল','কুরাইশ','আল-মাউন','আল-কাওসার','আল-কাফিরুন','আন-নাসর','আল-মাসাদ','আল-ইখলাস','আল-ফালাক','আন-নাস'];
+function initQuran(){const s=document.getElementById('surahSelect');if(!s)return;s.innerHTML=surahNames.map((n,i)=>`<option value="${i+1}">${i+1}. ${n}</option>`).join('');loadQuran(1)}
+async function loadQuran(id){
+  const box=document.getElementById('quranText');if(!box)return;box.innerHTML='<p class="muted">কুরআনের আয়াত লোড হচ্ছে...</p>';
+  try{const ed=document.getElementById('quranEdition')?.value||'bn.bengali';const r=await fetch(`https://api.alquran.cloud/v1/surah/${id}/editions/quran-uthmani,${ed}`);const j=await r.json();if(j.code!==200)throw new Error();const ar=j.data[0],tr=j.data[1];box.innerHTML=`<h3>${esc(surahNames[id-1])}</h3>`+ar.ayahs.map((a,i)=>`<div class="ayah"><div class="ayah-ar">${esc(a.text)} ﴿${a.numberInSurah}﴾</div><div class="ayah-bn">${esc(tr.ayahs[i]?.text||'')}</div></div>`).join('')}catch(e){box.innerHTML='<p class="muted">ইন্টারনেট সংযোগ থাকলে কুরআনের আয়াত লোড হবে।</p>'}
+}
+
+function renderSherpurUnions(){
+  const box=document.getElementById('unionList');if(!box)return;
+  const list=data().filter(x=>x.category==='পৌরসভা ও ১৪টি ইউনিয়ন তথ্য');
+  box.innerHTML=list.map(x=>`<article class="item union-item"><h3>${x.subtitle==='পৌরসভা'?'🏙️':'🏘️'} ${esc(x.title)}</h3><span class="pill">${esc(x.subtitle||'')}</span>${x.address?`<p>📍 ${esc(x.address)}</p>`:''}${x.phone?`<a class="btn green" href="tel:${esc(x.phone)}">📞 ${esc(x.phone)}</a>`:''}${x.map?`<a class="btn" href="${esc(safeUrl(x.map))}" target="_blank" rel="noopener">🗺️ ম্যাপ</a>`:''}${x.desc?`<p>${esc(x.desc)}</p>`:''}</article>`).join('');
+}
+function searchAll(q){
+  q=(q||'').trim().toLowerCase();const sec=document.getElementById('searchSection'),out=document.getElementById('searchResults');if(!q){sec.style.display='none';return}
+  const results=getCats().filter(c=>c[0].toLowerCase().includes(q)),items=data().filter(x=>[x.category,x.kamareType,x.title,x.subtitle,x.address,x.desc,x.phone,x.bloodGroup].join(' ').toLowerCase().includes(q));
+  out.innerHTML=results.map(c=>`<button class="btn" style="margin:4px" onclick="openCategory('${jsq(c[0])}')">${c[1]} ${esc(c[0])}</button>`).join('')+(items.length?items.map(itemHtml).join(''):`<p class="muted">কোনো তথ্য পাওয়া যায়নি।</p>`);sec.style.display='block';
+}
+function toggleSearch(){const p=document.getElementById('searchPanel');p.classList.toggle('show');if(p.classList.contains('show'))setTimeout(()=>document.getElementById('search').focus(),50)}
+function clearSearch(){document.getElementById('search').value='';document.getElementById('searchSection').style.display='none';document.getElementById('searchPanel').classList.remove('show')}
+
+function openNoticeList(){
+  const notices=data().filter(x=>['আজকের নোটিশ','ইউনিয়ন নোটিশ','সরকারি ঘোষণা','শিক্ষা নোটিশ'].includes(x.category)),localNotices=data().filter(x=>x.category==='কামারের চর'&&x.kamareType==='বিজ্ঞপ্তি'),all=[...notices,...localNotices];
+  document.getElementById('noticeModalBody').innerHTML=all.length?all.map(x=>itemHtml(x)).join(''):`<p class="muted">এখনও কোনো পূর্ণ নোটিশ নেই। এডমিন প্যানেল থেকে নোটিশ যোগ করুন।</p>`;
+  document.getElementById('noticeModal').classList.add('show');
+}
+
+function openPin(){
+  document.getElementById('pin').value='';
+  const box=document.getElementById('firebaseAdminFields');
+  if(box)box.style.display='none';
+  const email=document.getElementById('adminEmailInput');
+  const pw=document.getElementById('adminPasswordInput');
+  if(email)email.value=ADMIN_EMAIL&&ADMIN_EMAIL!=='YOUR_ADMIN_EMAIL_HERE'?ADMIN_EMAIL:'';
+  if(pw)pw.value='';
+  document.getElementById('pinModal').classList.add('show');
+}
+async function login(){
+  if(document.getElementById('pin').value.trim()!==PIN){toast('❌ পিন সঠিক নয়!');return}
+  if(!(await requireAdminAuth()))return;
+  try{
+    await syncLocalDataToFirebase();
+  }catch(e){
+    console.error(e);
+    toast('⚠️ পুরনো লোকাল তথ্য Firebase-এ পাঠানো যায়নি');
+  }
+  const pw=document.getElementById('adminPasswordInput');
+  if(pw)pw.value='';
+  closeModal('pinModal');
+  renderAdmin();
+  document.getElementById('adminModal').classList.add('show');
+  toast('✅ Admin login সফল এবং Firebase সিঙ্ক চালু');
+}
+function renderAdmin(){
+  const q=(document.getElementById('adminSearch')?.value||'').toLowerCase(),list=data().filter(x=>[x.title,x.category,x.kamareType,x.phone,x.address,x.desc].join(' ').toLowerCase().includes(q));
+  document.getElementById('adminList').innerHTML=list.map(x=>`<div class="admin-row"><div class="grow"><b>${esc(x.title)}</b><br><small>${esc(x.category)}${x.kamareType?' • '+esc(x.kamareType):''}${x.phone?' • '+esc(x.phone):''}${x.images?.length?' • 🖼️ '+x.images.length+' ছবি':''}</small></div><button class="btn secondary" onclick="openForm('${jsq(x.id)}')">✏️</button><button class="btn danger" onclick="deleteItem('${jsq(x.id)}')">🗑️</button></div>`).join('')||'<p class="muted">কোনো তথ্য নেই।</p>';
+}
+function fillCategories(){document.getElementById('fCategory').innerHTML=getCats().map(c=>`<option value="${esc(c[0])}">${c[1]} ${esc(c[0])}</option>`).join('')}
+
+function openForm(id='',quickNotice=false){
+  fillCategories();document.getElementById('itemForm').reset();document.getElementById('editId').value=id;document.getElementById('galleryPreview').innerHTML='';
+  if(quickNotice)document.getElementById('fCategory').value='আজকের নোটিশ';
+  if(id){
+    const x=data().find(a=>a.id===id);
+    if(x){
+      fCategory.value=x.category;fKamareType.value=x.kamareType||'খবর';fTitle.value=x.title;fSubtitle.value=x.subtitle||'';fPhone.value=x.phone||'';fAddress.value=x.address||'';fDesc.value=x.desc||'';fImage.value=x.image||'';fVideo.value=x.video||'';fMap.value=x.map||'';fBloodGroup.value=x.bloodGroup||'';
+      if(Array.isArray(x.images)&&x.images.length)document.getElementById('galleryPreview').innerHTML=x.images.filter(v=>String(v).startsWith('data:image/')).map(img=>`<img src="${img}" alt="বর্তমান পোস্টার">`).join('');
+    }
+  }
+  toggleFields();document.getElementById('formTitle').textContent=id?'✏️ তথ্য সম্পাদনা':'➕ নতুন তথ্য';document.getElementById('formModal').classList.add('show');
+}
+function toggleFields(){
+  const c=document.getElementById('fCategory').value;
+  document.getElementById('bloodGroupField').style.display=c==='রক্তদাতা তালিকা'?'block':'none';
+  document.getElementById('kamareTypeField').style.display=c==='কামারের চর'?'block':'none';
+  const galleryCats=['মাহফিল','সাহরি ও ইফতার','আজকের নোটিশ','ইউনিয়ন নোটিশ','সরকারি ঘোষণা','শিক্ষা নোটিশ','কামারের চর'];
+  document.getElementById('galleryUploadField').style.display=galleryCats.includes(c)?'block':'none';
+}
+
+function compressGalleryImage(file){
+  return new Promise((resolve,reject)=>{
+    if(!file||!file.type.startsWith('image/')){resolve('');return}
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const MAX=1200;let w=img.width,h=img.height;
+        if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}
+        const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+        const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg',0.78));
+      };
+      img.onerror=()=>reject(new Error('Image load error'));img.src=e.target.result;
+    };
+    reader.onerror=()=>reject(new Error('File read error'));reader.readAsDataURL(file);
+  });
+}
+function previewGallery(input){
+  const box=document.getElementById('galleryPreview');if(!box)return;box.innerHTML='';
+  [...input.files].slice(0,8).forEach(file=>{const reader=new FileReader();reader.onload=e=>{const img=document.createElement('img');img.src=e.target.result;img.alt='পোস্টার';box.appendChild(img)};reader.readAsDataURL(file)});
+  if(input.files.length>8)toast('সর্বোচ্চ ৮টি ছবি নেওয়া হবে');
+}
+
+async function saveItem(e){
+  e.preventDefault();
+  if(!(await requireAdminAuth()))return;
+  const d=data(),id=document.getElementById('editId').value||('item'+Date.now()),category=fCategory.value,oldItem=d.find(x=>x.id===id);
+  let galleryImages=oldItem&&Array.isArray(oldItem.images)?[...oldItem.images]:[];
+  const files=document.getElementById('fGallery')?.files;
+  if(files&&files.length){
+    for(let i=0;i<files.length&&i<8;i++){try{const img=await compressGalleryImage(files[i]);if(img)galleryImages.push(img)}catch(err){console.log(err)}}
+  }
+  galleryImages=galleryImages.slice(-8);
+  const obj={id,category,kamareType:category==='কামারের চর'?fKamareType.value:'',title:fTitle.value.trim(),subtitle:fSubtitle.value.trim(),phone:fPhone.value.trim(),address:fAddress.value.trim(),desc:fDesc.value.trim(),image:safeUrl(fImage.value.trim()),images:galleryImages,video:safeUrl(fVideo.value.trim()),map:safeUrl(fMap.value.trim()),bloodGroup:category==='রক্তদাতা তালিকা'?fBloodGroup.value:'',_deleted:false};
+  try{
+    save(d.filter(x=>x.id!==id).concat(obj));
+    await db.collection('appItems').doc(id).set(obj);
+    closeModal('formModal');renderAdmin();render();toast('🖼️ তথ্য Firebase-এ সংরক্ষণ হয়েছে — সবার ফোনে যাবে');
+  }catch(err){console.error(err);alert('তথ্য Firebase-এ সংরক্ষণ করা যায়নি। ইন্টারনেট/Rules পরীক্ষা করুন।')}
+}
+async function deleteItem(id){
+  if(!confirm('এই তথ্য মুছে ফেলবেন?'))return;
+  if(!(await requireAdminAuth()))return;
+  try{
+    save(data().filter(x=>x.id!==id));
+    await db.collection('appItems').doc(id).set({id,_deleted:true});
+    renderAdmin();render();toast('তথ্য মুছে ফেলা হয়েছে — সবার ফোনে আপডেট হবে');
+  }catch(e){console.error(e);toast('❌ তথ্য মুছতে Firebase সমস্যা হয়েছে')}
+}
+
+async function sendFeedback(){
+  const n=fbName.value,p=fbPhone.value,t=fbText.value;if(!t.trim()){toast('বিস্তারিত লিখুন');return}
+  const obj={id:'feedback'+Date.now(),category:'অভিযোগ ও মতামত',title:n||'নামহীন মতামত',subtitle:p?'ফোন: '+p:'',phone:p,address:'',desc:t,image:'',images:[],video:'',map:'',bloodGroup:'',kamareType:'',createdAt:new Date().toISOString()};
+  const d=data();d.push(obj);save(d);
+  try{await db.collection('appItems').doc(obj.id).set(obj);toast('✅ আপনার মতামত সংরক্ষণ ও সিঙ্ক হয়েছে')}catch(err){console.error(err);toast('⚠️ মতামত ফোনে সংরক্ষণ হয়েছে; অনলাইনে পাঠানো যায়নি')}
+  closeModal('categoryModal');
+}
+function closeModal(id){document.getElementById(id).classList.remove('show')}
+function toast(s){const t=document.getElementById('toast');t.textContent=s;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
+function openMenu(){document.getElementById('drawer').classList.add('show')}function closeMenu(){document.getElementById('drawer').classList.remove('show')}
+function renderMenu(){
+  const list=[['⚙️ সেটিংস','openSettings()'],['👤 প্রোফাইল','openProfile()'],...getCats().map(c=>[c[1]+' '+c[0],`openCategory('${jsq(c[0])}')`])];
+  document.getElementById('menuList').innerHTML=list.map(x=>`<button class="menu-item" onclick="closeMenu();${x[1]}"><b>${esc(x[0])}</b></button>`).join('');
+}
+function toggleDarkMode(isDark){document.body.classList.toggle('dark',isDark);localStorage.setItem('amader_dark',String(isDark))}
+function toggleLanguage(){currentLang=currentLang==='bn'?'en':'bn';localStorage.setItem('amader_lang',currentLang);document.getElementById('htmlRoot').setAttribute('lang',currentLang);updateTexts();render();toast(currentLang==='bn'?'ভাষা বাংলায় পরিবর্তন করা হয়েছে':'Language changed to English')}
+function toggleNotification(enabled){if(!enabled){toast('নোটিফিকেশন বন্ধ করা হয়েছে');return}if(!('Notification'in window)){toast('এই ব্রাউজারে নোটিফিকেশন নেই');return}Notification.requestPermission().then(p=>toast(p==='granted'?'নোটিফিকেশন চালু হয়েছে':'নোটিফিকেশন অনুমতি দেওয়া হয়নি'))}
+function openSettings(){darkModeToggle.checked=document.body.classList.contains('dark');langNameDisplay.textContent=currentLang==='bn'?'বাংলা':'English';settingsModal.classList.add('show')}
+function openProfile(){
+  const profiles=JSON.parse(localStorage.getItem('amader_profiles')||'[]'),user=JSON.parse(localStorage.getItem('amader_current_user')||'null');
+  let body=`<div style="text-align:center;margin-bottom:15px"><b>মোট রেজিস্টার্ড প্রোফাইল: ${profiles.length} জন</b></div>`;
+  body+=user?`<div class="item"><h3>👤 ${esc(user.name)}</h3><p>📞 ${esc(user.phone)}</p><p>📍 ${esc(user.address)}</p><button class="btn danger" onclick="logoutProfile()">লগআউট / প্রোফাইল পরিবর্তন</button></div>`:`<form onsubmit="saveProfile(event)"><div class="field"><label>নাম *</label><input id="pName" required></div><div class="field"><label>ফোন নম্বর *</label><input id="pPhone" required></div><div class="field"><label>ঠিকানা/এলাকা *</label><input id="pAddress" required></div><button class="btn" type="submit">প্রোফাইল তৈরি করুন</button></form>`;
+  document.getElementById('profileModalBody').innerHTML=body;profileModal.classList.add('show');
+}
+function saveProfile(e){e.preventDefault();const user={name:pName.value,phone:pPhone.value,address:pAddress.value,time:new Date().toISOString()},profiles=JSON.parse(localStorage.getItem('amader_profiles')||'[]');profiles.push(user);localStorage.setItem('amader_profiles',JSON.stringify(profiles));localStorage.setItem('amader_current_user',JSON.stringify(user));toast('প্রোফাইল তৈরি হয়েছে!');openProfile()}
+function logoutProfile(){localStorage.removeItem('amader_current_user');toast('প্রোফাইল লগআউট হয়েছে');openProfile()}
+
+function openCalendarModal(){calendarModal.classList.add('show');renderRealCalendar(calYear,calMonth)}
+function changeCalMonth(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++}if(calMonth<0){calMonth=11;calYear--}renderRealCalendar(calYear,calMonth)}
+function toBnDigits(n){const d=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];return String(n).split('').map(x=>d[x]??x).join('')}
+const monthsBn=['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const bannerImages=['https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1426604966848-d7adac902bff?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1510784722466-f2aa9c52ffd6?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?w=600&auto=format&fit=crop&q=60','https://images.unsplash.com/photo-1517760444937-f6397edcbbcd?w=600&auto=format&fit=crop&q=60'];
+
+function renderRealCalendar(y,m){
+  const firstDay=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate();
+  let html=`<div class="real-cal-wrap"><div class="real-cal-topbanner"><img src="${bannerImages[m]}" alt=""></div><div class="real-cal-header"><div><button class="real-cal-navbtn" onclick="changeCalMonth(-1)">◀</button><span style="font-weight:900;font-size:17px;margin:0 6px">${monthsBn[m]} ${toBnDigits(y)}</span><button class="real-cal-navbtn" onclick="changeCalMonth(1)">▶</button></div><div class="real-cal-subhead">বাংলা ও হিজরি<br>আনুমানিক</div></div><table class="real-table"><thead><tr><th>রবি</th><th>সোম</th><th>মঙ্গল</th><th>বুধ</th><th>বৃহঃ</th><th>শুক্র</th><th>শনি</th></tr></thead><tbody>`;
+  let n=1;
+  for(let i=0;i<6;i++){html+='<tr>';for(let j=0;j<7;j++){if((i===0&&j<firstDay)||n>days){html+='<td></td>';continue}const red=j===0||j===5,bn=((n+15)%30)+1,hij=((n+10)%29)+1;html+=`<td class="${red?'day-red':''}"><span class="cell-en">${toBnDigits(n)}</span><span class="cell-bn">${toBnDigits(bn)}</span><span class="cell-ar">${toBnDigits(hij)}</span></td>`;n++}html+='</tr>';if(n>days)break}
+  html+=`</tbody></table><div class="holiday-section-box">২০২৬ সালের সরকারি ছুটি / গুরুত্বপূর্ণ দিবস</div><div class="holiday-list-box">`;
+  const hs=holidays2026.filter(h=>{const d=new Date(h[0]);return d.getFullYear()===y&&d.getMonth()===m});
+  html+=hs.length?hs.map(h=>{const d=new Date(h[0]);return `<div class="holiday-item"><b>${toBnDigits(d.getDate())} ${monthsBn[m]}</b> — ${h[1]} (${h[2]})</div>`}).join(''):`<div style="text-align:center;padding:10px">এই মাসে তালিকাভুক্ত কোনো দিন নেই।</div>`;
+  html+='</div></div>';document.getElementById('modalCalendarContainer').innerHTML=html;
+}
+
+const holidays2026=[
+['2026-01-02','জাতীয় সমাজসেবা দিবস','জাতীয় দিবস'],['2026-01-01','ইংরেজি নববর্ষ','ঐচ্ছিক/গুরুত্বপূর্ণ দিবস'],['2026-02-07','বাংলা ইশারা ভাষা দিবস','জাতীয় দিবস'],['2026-02-21','শহীদ দিবস ও আন্তর্জাতিক মাতৃভাষা দিবস','সাধারণ ছুটি'],['2026-03-21','বিশ্ব ডাউন সিনড্রোম দিবস','আন্তর্জাতিক দিবস'],['2026-03-26','মহান স্বাধীনতা ও জাতীয় দিবস','সাধারণ ছুটি'],['2026-04-02','বিশ্ব অটিজম সচেতনতা দিবস','আন্তর্জাতিক দিবস'],['2026-04-14','বাংলা নববর্ষ (পহেলা বৈশাখ)','নির্বাহী আদেশে সরকারি ছুটি'],['2026-05-01','মহান মে দিবস','সাধারণ ছুটি'],['2026-05-25','জাতীয় কবি কাজী নজরুল ইসলাম জন্মদিবস','জাতীয় দিবস'],['2026-07-23','জাতীয় পাবলিক সার্ভিস দিবস','জাতীয় দিবস'],['2026-08-05','জুলাই গণঅভ্যুত্থান দিবস','সরকারি ছুটি'],['2026-09-01','জাতীয় যুব দিবস','জাতীয় দিবস'],['2026-10-01','আন্তর্জাতিক প্রবীণ দিবস','আন্তর্জাতিক দিবস'],['2026-10-15','সাদাছড়ি নিরাপত্তা দিবস','জাতীয় দিবস'],['2026-12-03','জাতীয় ও আন্তর্জাতিক প্রতিবন্ধী দিবস','জাতীয় দিবস'],['2026-12-14','শহীদ বুদ্ধিজীবী দিবস','জাতীয় দিবস'],['2026-12-16','মহান বিজয় দিবস','সাধারণ ছুটি'],['2026-12-25','বড়দিন','সাধারণ ছুটি']
+];
+function renderHolidays(id){
+  const box=document.getElementById(id);if(!box)return;
+  const list=holidays2026.map(h=>`<article class="item"><h3>🇧🇩 ${esc(h[1])}</h3><span class="pill">${h[0]}</span><span class="pill">${esc(h[2])}</span></article>`).join('');
+  box.innerHTML=`<div class="item"><b>📅 ২০২৬ সালের জাতীয় ও গুরুত্বপূর্ণ দিবস</b><p class="source">সরকারি ছুটির তথ্যের জন্য জনপ্রশাসন মন্ত্রণালয়ের প্রকাশিত ২০২৬ সালের ছুটির প্রজ্ঞাপন অনুসরণ করা উচিত। চাঁদ-নির্ভর ছুটির তারিখ পরিবর্তিত হতে পারে।</p></div>${list}`;
+}
+function loadPrayer(){
+  const grid=document.getElementById('catPrayerGrid'),date=document.getElementById('catPrayerDate');if(!grid)return;
+  const today=new Date().toISOString().slice(0,10);date.textContent='আজ: '+today;grid.innerHTML=['ফজর','জোহর','আসর','মাগরিব','এশা','সূর্যোদয়'].map(x=>`<div class="prayer-card"><b>--:--</b><small>${x}</small></div>`).join('');
+  fetch('https://api.aladhan.com/v1/timingsByCity?city=Sherpur&country=Bangladesh&method=1').then(r=>r.json()).then(j=>{const t=j?.data?.timings||{},vals=[['ফজর',t.Fajr],['জোহর',t.Dhuhr],['আসর',t.Asr],['মাগরিব',t.Maghrib],['এশা',t.Isha],['সূর্যোদয়',t.Sunrise]];grid.innerHTML=vals.map(v=>`<div class="prayer-card"><b>${esc(v[1]||'--:--')}</b><small>${v[0]}</small></div>`).join('');date.textContent='আজ: '+(j?.data?.date?.readable||today)}).catch(()=>{});
+}
+function updateTexts(){
+  const en=currentLang==='en';brandTitle.textContent=en?'Amader Kamare Char':'আমাদের কামারের চর';heroTitle.textContent=en?'Amader Kamare Char':'আমাদের কামারের চর';
+  heroSub.textContent=en?'Kamare Char • News • Services • Together':'কামারের চর • সব খবর • সব সেবা • একসাথে';adminPanelBtn.textContent=en?'🔒 Admin Panel Access':'🔒 এডমিন প্যানেল প্রবেশ';
+  footerText.textContent=en?'© 2026 Amader Kamare Char':'© ২০২৬ আমাদের কামারের চর';footerSub.textContent=en?'Kamare Char • News • Services • Together':'কামারের চর • সব খবর • সব সেবা • একসাথে';
+  menuTitle.textContent=en?'☰ All Categories':'☰ সব ক্যাটাগরি';refreshBtn.textContent=en?'↻ Refresh':'↻ রিফ্রেশ';searchTitle.textContent=en?'🔎 Search Results':'🔎 খোঁজার ফলাফল';
+}
+function updateClock(){
+  const now=new Date(),d=document.getElementById('date');if(!d)return;
+  const dateText=new Intl.DateTimeFormat(currentLang==='en'?'en-US':'bn-BD',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Dhaka'}).format(now);
+  const time=new Intl.DateTimeFormat(currentLang==='en'?'en-US':'bn-BD',{hour:'numeric',minute:'2-digit',second:'2-digit',hour12:true,timeZone:'Asia/Dhaka'}).format(now);
+  d.innerHTML=`📅 ${dateText}<br><span style="color:#ffeb3b;font-size:15px">⏰ ${time}</span>`;
+}
+
+function ensureSeedData(){
+  let d=data(),changed=false;const add=o=>{if(!d.some(x=>x.id===o.id)){d.push(o);changed=true}};
+  kamareSeed.forEach(add);
+  const extras=[
+  ['police-sadar','পুলিশ','শেরপুর সদর থানা','অফিসার ইনচার্জ','01320106169','শেরপুর সদর','শেরপুর জেলা পুলিশের যোগাযোগ নম্বর।'],
+  ['police-jhinaigati','পুলিশ','ঝিনাইগাতী থানা','অফিসার ইনচার্জ','01320106273','ঝিনাইগাতী','শেরপুর জেলা পুলিশের যোগাযোগ নম্বর।'],
+  ['police-sreebordi','পুলিশ','শ্রীবরদী থানা','অফিসার ইনচার্জ','01320106247','শ্রীবরদী','শেরপুর জেলা পুলিশের যোগাযোগ নম্বর।'],
+  ['police-nalitabari','পুলিশ','নালিতাবাড়ী থানা','অফিসার ইনচার্জ','01320106221','নালিতাবাড়ী','শেরপুর জেলা পুলিশের যোগাযোগ নম্বর।'],
+  ['police-nakla','পুলিশ','নকলা থানা','অফিসার ইনচার্জ','01320106195','নকলা','শেরপুর জেলা পুলিশের যোগাযোগ নম্বর।'],
+  ['fire102','ফায়ার সার্ভিস','ফায়ার সার্ভিস হটলাইন','অগ্নি ও উদ্ধার','102','বাংলাদেশ','ফায়ার সার্ভিস হটলাইন।'],
+  ['hospital250','হাসপাতাল ও ডায়াগনস্টিক','শেরপুর ২৫০ বেড জেলা সদর হাসপাতাল','সরকারি হাসপাতাল','01978449070','শেরপুর সদর','ল্যান্ড ফোন: 093161296।'],
+  ['power16899','পল্লী বিদ্যুৎ','শেরপুর পল্লী বিদ্যুৎ সমিতি','বিদ্যুৎ অভিযোগ ও সেবা','16899','ভাতশাল, শেরপুর','বিদ্যুৎ অভিযোগ হটলাইন।'],
+  ['hot999','জরুরি হটলাইন','জাতীয় জরুরি সেবা','পুলিশ • ফায়ার • অ্যাম্বুলেন্স','999','বাংলাদেশ','জাতীয় জরুরি সেবা।'],
+  ['hot333','জরুরি হটলাইন','জাতীয় তথ্য সেবা','তথ্য সেবা','333','বাংলাদেশ','সরকারি তথ্য ও সেবা।'],
+  ['social-org-main','সামাজিক সংগঠন','সামাজিক সংগঠন তালিকা','এলাকার সামাজিক সংগঠন ও স্বেচ্ছাসেবী কার্যক্রম','','কামারের চর ও আশপাশ','সামাজিক সংগঠনের নাম, সভাপতি/সম্পাদক, কার্যক্রম, ঠিকানা ও ফোন নম্বর এডমিন যোগ করতে পারবেন।'],
+  ['institution-main','অন্যান্য প্রতিষ্ঠান','অন্যান্য প্রতিষ্ঠান তালিকা','এলাকার অন্যান্য প্রতিষ্ঠান','','কামারের চর ও আশপাশ','প্রতিষ্ঠানের নাম, দায়িত্বশীল ব্যক্তির নাম, ঠিকানা, ফোন নম্বর, ছবি ও ম্যাপ এডমিন যোগ করতে পারবেন।'],
+  ['sherpur-pourashava','পৌরসভা ও ১৪টি ইউনিয়ন তথ্য','শেরপুর পৌরসভা','পৌরসভা','','শেরপুর','পৌরসভা সম্পর্কিত তথ্য অ্যাডমিন যোগ করতে পারবেন।']
+  ];
+  extras.forEach(e=>add({id:e[0],category:e[1],title:e[2],subtitle:e[3],phone:e[4],address:e[5],desc:e[6],image:'',images:[],video:'',map:'',bloodGroup:'',kamareType:''}));
+  sherpurSadarUnions.forEach((u,i)=>add({id:'sherpur-sadar-union-'+(i+1),category:'পৌরসভা ও ১৪টি ইউনিয়ন তথ্য',title:u[0],subtitle:u[1]+' ইউনিয়ন • শেরপুর সদর',phone:'',address:'',desc:'ইউনিয়নের তথ্য অ্যাডমিন যোগ করতে পারবেন।',image:'',images:[],video:'',map:'',bloodGroup:'',kamareType:''}));
+  if(changed)save(d);
+}
+if(localStorage.getItem('amader_dark')==='true')document.body.classList.add('dark');
+document.getElementById('htmlRoot').setAttribute('lang',currentLang);
+ensureSeedData();renderMenu();render();updateClock();setInterval(updateClock,1000);
+</script>
+</body>
+</html>
