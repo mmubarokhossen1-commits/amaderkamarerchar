@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="theme-color" content="#1768e5">
-<title>আমাদের কামারের চর</title>
+<title>আমাদের কামারের চর অ্যাপে স্বাগতম</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800;900&display=swap');
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:#eef2f9;color:#172033;font-family:"Noto Sans Bengali",sans-serif;transition:background .3s,color .3s}
 body.dark{background:#111827;color:#f3f4f6}
-body.dark .section,body.dark .modal-box,body.dark .drawer-panel,body.dark .item,body.dark .admin-row,body.dark .search-panel,body.dark .ai-box{background:#1f2937;color:#f3f4f6;box-shadow:0 5px 18px #00000055}
+body.dark .section,body.dark .modal-box,body.dark .drawer-panel,body.dark .item,body.dark .admin-row,body.dark .search-panel{background:#1f2937;color:#f3f4f6;box-shadow:0 5px 18px #00000055}
 body.dark .admin-btn{background:#1f2937;color:#fff;border-color:#374151}
 body.dark .field input,body.dark .field textarea,body.dark .field select{background:#111827;color:#fff;border-color:#374151}
 body.dark .menu-item:hover{background:#374151}
@@ -22,7 +22,7 @@ button,input,textarea,select{font:inherit}
 button{cursor:pointer;border:0}
 a{text-decoration:none}
 .header{position:sticky;top:0;z-index:30;padding:12px 18px;background:linear-gradient(100deg,#164fe8,#10b9d8);color:#fff;display:flex;align-items:center;gap:10px;box-shadow:0 3px 14px #0002}
-.logo{font-size:25px}.brand{font-size:22px;font-weight:900;flex:1}
+.logo{font-size:25px}.brand{font-size:18px;font-weight:900;flex:1;line-height:1.2}
 .header-actions{display:flex;align-items:center;gap:8px}
 .refresh,.header-search-btn{background:#ffffff18;color:#fff;border:1px solid #ffffff55;border-radius:28px;padding:9px 14px;font-size:15px}
 .menu-btn{background:#ffffff20;color:#fff;border:1px solid #ffffff55;border-radius:12px;width:48px;height:44px;font-size:25px}
@@ -71,22 +71,6 @@ body.dark .prayer-card{background:#12352d}.prayer-card b{display:block;font-size
 .ayah{border-bottom:1px solid #e7e7e7;padding:15px 4px}.ayah-ar{font-family:serif;font-size:25px;line-height:2;text-align:right;direction:rtl}.ayah-bn{font-size:16px;line-height:1.7;margin-top:8px;color:#445}
 body.dark .ayah-bn{color:#d1d5db}.union-item{border-left:5px solid #1551e8}.union-list .item{margin-bottom:10px}
 
-/* ===== AI Assistant Section ===== */
-.ai-box{background:#fff;border-radius:27px;padding:20px;margin-bottom:20px;box-shadow:0 5px 18px #00000012;border:2px solid #8b5cf6}
-.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.ai-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#c084fc);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px}
-.ai-title b{font-size:18px;color:#7c3aed;display:block}body.dark .ai-title b{color:#c084fc}
-.ai-title span{font-size:12px;color:#687386}
-.ai-chat-history{max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:12px;padding:8px;background:#f8fafc;border-radius:16px}
-body.dark .ai-chat-history{background:#111827}
-.ai-msg{padding:9px 13px;border-radius:14px;max-width:85%;font-size:14px;line-height:1.5}
-.ai-msg.user{background:#7c3aed;color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
-.ai-msg.bot{background:#eef2ff;color:#1e1b4b;align-self:flex-start;border-bottom-left-radius:2px}
-body.dark .ai-msg.bot{background:#374151;color:#f3f4f6}
-.ai-input-row{display:flex;gap:8px}
-.ai-input-row input{flex:1;padding:11px 15px;border:1px solid #d5dbe5;border-radius:15px;outline:0}
-.ai-input-row button{padding:10px 18px;border-radius:15px;background:#7c3aed;color:#fff;font-weight:700}
-
 /* Gallery and Calendar Styles */
 .gallery-upload-box{background:#f5f8ff;border:2px dashed #1768e5;border-radius:15px;padding:15px;margin-top:8px}
 body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
@@ -110,7 +94,7 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
 .slider:before{position:absolute;content:"";height:18px;width:18px;left:4px;bottom:4px;background-color:white;transition:.4s;border-radius:50%}input:checked+.slider{background-color:#1768e5}input:checked+.slider:before{transform:translateX(24px)}
 .kamare-highlight{border:2px solid #10b978;background:linear-gradient(135deg,#effff8,#fff)}body.dark .kamare-highlight{background:#12352d}
 @media(min-width:700px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
-@media(max-width:480px){.hero h1{font-size:29px}.brand{font-size:19px}.grid{gap:10px}.card{min-height:125px}.two{grid-template-columns:1fr}.video-box iframe{height:240px}.prayer-grid{grid-template-columns:repeat(2,1fr)}.post-gallery img{height:145px}}
+@media(max-width:480px){.hero h1{font-size:29px}.brand{font-size:16px}.grid{gap:10px}.card{min-height:125px}.two{grid-template-columns:1fr}.video-box iframe{height:240px}.prayer-grid{grid-template-columns:repeat(2,1fr)}.post-gallery img{height:145px}}
 </style>
 </head>
 <body>
@@ -118,7 +102,7 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
 <header class="header">
   <button class="menu-btn" onclick="openMenu()">☰</button>
   <div class="logo">📱</div>
-  <div class="brand" id="brandTitle">আমাদের কামারের চর</div>
+  <div class="brand" id="brandTitle">আমাদের কামারের চর অ্যাপে স্বাগতম</div>
   <div class="header-actions">
     <button class="header-search-btn" onclick="toggleSearch()">🔍</button>
     <button class="refresh" onclick="location.reload()" id="refreshBtn">↻ রিফ্রেশ</button>
@@ -149,24 +133,6 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
 </section>
 
 <div id="homeSections"></div>
-
-<!-- AI Assistant Box -->
-<section class="ai-box">
-  <div class="ai-header">
-    <div class="ai-avatar">🤖</div>
-    <div class="ai-title">
-      <b>এআই সহকারী (AI Assistant)</b>
-      <span>কামারের চরের তথ্য বা যেকোনো প্রশ্ন জিজ্ঞাসা করুন</span>
-    </div>
-  </div>
-  <div class="ai-chat-history" id="aiChatHistory">
-    <div class="ai-msg bot">👋 আসসালামু আলাইকুম! আমি 'আমাদের কামারের চর' AI সহকারী। আপনাকে কীভাবে সাহায্য করতে পারি?</div>
-  </div>
-  <div class="ai-input-row">
-    <input id="aiInput" placeholder="এখানে প্রশ্ন লিখুন..." onkeydown="if(event.key==='Enter')askAI()">
-    <button onclick="askAI()">পাঠান</button>
-  </div>
-</section>
 
 <button class="admin-btn" onclick="openPin()" id="adminPanelBtn">🔒 এডমিন প্যানেল প্রবেশ</button>
 </main>
@@ -278,11 +244,11 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
         <div class="field"><label>বিস্তারিত</label><textarea id="fDesc"></textarea></div>
 
         <!-- Gallery upload -->
-        <div class="field" id="galleryUploadField" style="display:none">
-          <label>🖼️ Gallery থেকে পোস্টার / ছবি</label>
+        <div class="field" id="galleryUploadField">
+          <label>🖼️ Gallery থেকে পোস্টার / ছবি আপলোড করুন</label>
           <div class="gallery-upload-box">
             <input id="fGallery" type="file" accept="image/*" multiple onchange="previewGallery(this)">
-            <div class="gallery-help">📱 মোবাইলের Gallery থেকে এক বা একাধিক পোস্টার/ছবি নির্বাচন করুন। সর্বোচ্চ ৮টি ছবি।</div>
+            <div class="gallery-help">📱 মোবাইলের Gallery থেকে এক বা একাধিক পোস্টার/ছবি নির্বাচন করুন। (সর্বোচ্চ ৮টি ছবি)</div>
             <div id="galleryPreview" class="gallery-preview"></div>
           </div>
         </div>
@@ -338,8 +304,6 @@ let remoteItems = new Map();
 let remoteCats = new Map();
 
 // ===== Admin Firebase account =====
-// আপনার Firebase Authentication-এ তৈরি করা Admin email এখানে লিখুন।
-// Password কখনো HTML-এ লিখবেন না। Login-এর সময় password নেওয়া হবে।
 const ADMIN_UID = "eZka93AoInZpZHu3hxGdRDM1MFG2";
 const ADMIN_EMAIL = localStorage.getItem('amader_admin_email') || "YOUR_ADMIN_EMAIL_HERE";
 
@@ -562,32 +526,6 @@ function card(c,big=false){
   return `<div class="card ${big?'big':''}" style="background:linear-gradient(135deg,${c[2]},${c[3]})" onclick="openCategory('${jsq(c[0])}')"><div class="icon">${c[1]}</div><b>${esc(c[0])}</b></div>`;
 }
 
-/* AI Assistant Logic */
-function askAI(){
-  const inp=document.getElementById('aiInput'),history=document.getElementById('aiChatHistory');
-  const txt=inp.value.trim();if(!txt)return;
-  
-  history.innerHTML+=`<div class="ai-msg user">${esc(txt)}</div>`;
-  inp.value='';history.scrollTop=history.scrollHeight;
-
-  setTimeout(()=>{
-    let reply="ধন্যবাদ প্রশ্ন করার জন্য। আমি কামারের চর অ্যাপের AI সহায়ক। ";
-    const q=txt.toLowerCase();
-    
-    // AI Knowledge Base Matching
-    const matchedItems=data().filter(x=>[x.title,x.category,x.desc,x.address].join(' ').toLowerCase().includes(q));
-    
-    if(q.includes('রক্ত')||q.includes('blood'))reply+="আমাদের অ্যাপে রক্তদাতা তালিকায় যুক্ত হয়ে সরাসরি রক্তদাতার ফোন নম্বর পাওয়া যায়।";
-    else if(q.includes('পুলিশ')||q.includes('থানা'))reply+="জরুরি প্রয়োজনে শেরপুর জেলা পুলিশ বা জাতীয় জরুরি সেবা ৯৯৯ নম্বরে কল দিতে পারেন।";
-    else if(q.includes('হাসপাতাল')||q.includes('ডাক্তার'))reply+="শেরপুর সদর হাসপাতাল ও বিশেষজ্ঞদের তথ্য হাসপাতাল প্যানেলে সংরক্ষিত আছে।";
-    else if(matchedItems.length>0)reply+=`আপনার প্রশ্নের সাথে সম্পর্কিত তথ্য পাওয়া গেছে: "${matchedItems[0].title}" (${matchedItems[0].category})। বিস্তারিত জানতে মেন্যু থেকে নির্দিষ্ট ক্যাটাগরি দেখুন।`;
-    else reply+="আপনার প্রয়োজনীয় তথ্যটি এডমিন প্যানেল থেকে খুব শীঘ্রই হালনাগাদ করা হবে। প্রয়োজনে আপনার মতামত ফর্মে লিখে আমাদের পাঠাতে পারেন।";
-
-    history.innerHTML+=`<div class="ai-msg bot">${esc(reply)}</div>`;
-    history.scrollTop=history.scrollHeight;
-  },600);
-}
-
 function openAddCategoryModal(){
   document.getElementById('addCategoryModal').classList.add('show');
 }
@@ -758,8 +696,8 @@ function toggleFields(){
   const c=document.getElementById('fCategory').value;
   document.getElementById('bloodGroupField').style.display=c==='রক্তদাতা তালিকা'?'block':'none';
   document.getElementById('kamareTypeField').style.display=c==='কামারের চর'?'block':'none';
-  const galleryCats=['মাহফিল','সাহরি ও ইফতার','আজকের নোটিশ','ইউনিয়ন নোটিশ','সরকারি ঘোষণা','শিক্ষা নোটিশ','কামারের চর'];
-  document.getElementById('galleryUploadField').style.display=galleryCats.includes(c)?'block':'none';
+  // পোস্টার/ছবি আপলোড ক্ষেত্রটি এখন সকল ক্যাটাগরিতে দৃশ্যমান থাকবে
+  document.getElementById('galleryUploadField').style.display='block';
 }
 
 function compressGalleryImage(file){
@@ -773,7 +711,6 @@ function compressGalleryImage(file){
         if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX}else{w=Math.round(w*MAX/h);h=MAX}}
         const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
         const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,w,h);
-        // Keep gallery images small enough for Firestore documents (8 images per post).
         let quality=.72, out=canvas.toDataURL('image/jpeg',quality);
         while(out.length>90000 && quality>.38){quality-=.07;out=canvas.toDataURL('image/jpeg',quality)}
         if(out.length>90000){
@@ -883,7 +820,7 @@ function loadPrayer(){
   fetch('https://api.aladhan.com/v1/timingsByCity?city=Sherpur&country=Bangladesh&method=1').then(r=>r.json()).then(j=>{const t=j?.data?.timings||{},vals=[['ফজর',t.Fajr],['জোহর',t.Dhuhr],['আসর',t.Asr],['মাগরিব',t.Maghrib],['এশা',t.Isha],['সূর্যোদয়',t.Sunrise]];grid.innerHTML=vals.map(v=>`<div class="prayer-card"><b>${esc(v[1]||'--:--')}</b><small>${v[0]}</small></div>`).join('');date.textContent='আজ: '+(j?.data?.date?.readable||today)}).catch(()=>{});
 }
 function updateTexts(){
-  const en=currentLang==='en';brandTitle.textContent=en?'Amader Kamare Char':'আমাদের কামারের চর';heroTitle.textContent=en?'Amader Kamare Char':'আমাদের কামারের চর';
+  const en=currentLang==='en';brandTitle.textContent=en?'Welcome to Amader Kamare Char App':'আমাদের কামারের চর অ্যাপে স্বাগতম';heroTitle.textContent=en?'Amader Kamare Char':'আমাদের কামারের চর';
   heroSub.textContent=en?'Kamare Char • News • Services • Together':'কামারের চর • সব খবর • সব সেবা • একসাথে';adminPanelBtn.textContent=en?'🔒 Admin Panel Access':'🔒 এডমিন প্যানেল প্রবেশ';
   footerText.textContent=en?'© 2026 Amader Kamare Char':'© ২০২৬ আমাদের কামারের চর';footerSub.textContent=en?'Kamare Char • News • Services • Together':'কামারের চর • সব খবর • সব সেবা • একসাথে';
   menuTitle.textContent=en?'☰ All Categories':'☰ সব ক্যাটাগরি';refreshBtn.textContent=en?'↻ Refresh':'↻ রিফ্রেশ';searchTitle.textContent=en?'🔎 Search Results':'🔎 খোঁজার ফলাফল';
@@ -922,4 +859,4 @@ document.getElementById('htmlRoot').setAttribute('lang',currentLang);
 ensureSeedData();renderMenu();render();updateClock();setInterval(updateClock,1000);
 </script>
 </body>
-      </html>
+  </html>
