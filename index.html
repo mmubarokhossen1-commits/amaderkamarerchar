@@ -79,7 +79,12 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
 .gallery-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
 .gallery-preview img{width:100%;height:130px;object-fit:cover;border-radius:12px}
 .post-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
-.post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:14px;display:block}
+.post-gallery img{width:100%;height:180px;object-fit:cover;border-radius:14px;display:block;cursor:zoom-in}
+.post-image-viewer{display:none;position:fixed;inset:0;z-index:120;background:#000e;align-items:center;justify-content:center;padding:18px;touch-action:none}
+.post-image-viewer.show{display:flex}
+.post-image-viewer img{display:block;max-width:96vw;max-height:90vh;width:auto;height:auto;object-fit:contain;border-radius:8px;box-shadow:0 8px 35px #0008;cursor:zoom-out}
+.post-image-close{position:fixed;right:14px;top:14px;width:44px;height:44px;border-radius:50%;background:#ffffff25;border:1px solid #ffffff55;color:#fff;font-size:30px;line-height:1;z-index:121}
+.post-image-hint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);color:#fff;background:#0008;padding:7px 12px;border-radius:20px;font-size:12px;pointer-events:none}
 .real-cal-wrap{background:#fff;border-radius:14px;border:1px solid #ddd;overflow:hidden;text-align:left;color:#222;margin-top:10px}body.dark .real-cal-wrap{background:#1f2937;color:#f3f4f6;border-color:#374151}
 .real-cal-topbanner{width:100%;height:140px;overflow:hidden;background:#0d3b66}.real-cal-topbanner img{width:100%;height:100%;object-fit:cover}
 .real-cal-header{padding:10px 14px;display:flex;justify-content:space-between;align-items:center;background:#f8f9fa;border-bottom:1px solid #eee}body.dark .real-cal-header{background:#111827;border-color:#374151}
@@ -281,6 +286,13 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
   </div></div>
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- Full-screen image viewer: পোস্টার/ছবিতে চাপ দিলে সম্পূর্ণ ছবি দেখা যাবে -->
+<div class="post-image-viewer" id="postImageViewer" onclick="closeImageViewer(event)">
+  <button class="post-image-close" type="button" onclick="closeImageViewer(event)">×</button>
+  <img id="postImageViewerImg" src="" alt="সম্পূর্ণ ছবি" onclick="event.stopPropagation()">
+  <div class="post-image-hint">ছবি বন্ধ করতে বাইরে চাপুন</div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/12.18.0/firebase-auth-compat.js"></script>
@@ -590,10 +602,10 @@ function itemHtml(x){
   if(Array.isArray(x.images)&&x.images.length){
     const imgs=x.images.filter(v=>String(v).startsWith('data:image/'));
     if(imgs.length){
-      html+=`<div class="post-gallery">${imgs.map(img=>`<img src="${img}" alt="পোস্টার" loading="lazy" onerror="this.style.display='none'">`).join('')}</div>`;
+      html+=`<div class="post-gallery">${imgs.map(img=>`<img src="${img}" alt="পোস্টার" loading="lazy" onclick="openImageViewer(this.src)" onerror="this.style.display='none'">`).join('')}</div>`;
     }
   }
-  if(media)html+=`<img src="${esc(media)}" alt="" style="width:100%;max-height:220px;border-radius:14px;object-fit:cover;margin-bottom:10px" onerror="this.style.display='none'">`;
+  if(media)html+=`<img src="${esc(media)}" alt="" style="width:100%;max-height:220px;border-radius:14px;object-fit:cover;margin-bottom:10px;cursor:zoom-in" onclick="openImageViewer(this.src)" onerror="this.style.display='none'">`;
   html+=`<h3>${esc(x.title)}</h3>`;
   if(x.kamareType)html+=`<span class="pill">🏘️ ${esc(x.kamareType)}</span>`;
   if(x.bloodGroup)html+=`<span class="blood-badge">🩸 ${esc(x.bloodGroup)}</span>`;
@@ -604,6 +616,27 @@ function itemHtml(x){
   if(x.phone||video||map)html+=`<div class="actions">${x.phone?`<a class="btn green" href="tel:${phone}">📞 কল ${phone}</a>`:''}${map?`<a class="btn" href="${esc(map)}" target="_blank" rel="noopener">🗺️ ম্যাপ</a>`:''}${video?`<a class="watch" href="${esc(video)}" target="_blank" rel="noopener">▶️ লিংক খুলুন</a>`:''}</div>`;
   html+=`</article>`;return html;
 }
+
+function openImageViewer(src){
+  const viewer=document.getElementById('postImageViewer');
+  const img=document.getElementById('postImageViewerImg');
+  if(!viewer||!img||!src)return;
+  img.src=src;
+  viewer.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closeImageViewer(e){
+  if(e)e.stopPropagation();
+  const viewer=document.getElementById('postImageViewer');
+  const img=document.getElementById('postImageViewerImg');
+  if(!viewer)return;
+  viewer.classList.remove('show');
+  if(img)img.src='';
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeImageViewer();
+});
 
 function renderVideoHtml(url){
   if(!url)return '';
