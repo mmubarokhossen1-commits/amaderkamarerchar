@@ -200,6 +200,22 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
   </div>
 </div>
 
+<!-- Modal for Admin Reply -->
+<div class="modal" id="replyModal">
+  <div class="modal-box">
+    <div class="modal-head"><h2>💬 অভিযোগ/মতামতের উত্তর</h2><button class="close" onclick="closeModal('replyModal')">×</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="replyId">
+      <div class="item" style="margin-bottom:12px">
+        <b id="replyPerson">ব্যবহারকারী</b>
+        <p id="replyQuestion" class="muted" style="margin-bottom:0"></p>
+      </div>
+      <div class="field"><label>✍️ আপনার উত্তর</label><textarea id="replyText" rows="6" placeholder="এখানে উত্তর লিখুন..."></textarea></div>
+      <button class="btn green" onclick="saveAdminReply()">📤 উত্তর পাঠান</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal for Creating New Category -->
 <div class="modal" id="addCategoryModal">
   <div class="modal-box">
@@ -614,6 +630,7 @@ function itemHtml(x){
   if(x.desc)html+=`<p>${esc(x.desc)}</p>`;
   if(x.category==='লাইভ ফুটবল'||x.category==='লাইভ ক্রিকেট স্কোর')html+=renderVideoHtml(video);
   if(x.phone||video||map)html+=`<div class="actions">${x.phone?`<a class="btn green" href="tel:${phone}">📞 কল ${phone}</a>`:''}${map?`<a class="btn" href="${esc(map)}" target="_blank" rel="noopener">🗺️ ম্যাপ</a>`:''}${video?`<a class="watch" href="${esc(video)}" target="_blank" rel="noopener">▶️ লিংক খুলুন</a>`:''}</div>`;
+  if(x.category==='অভিযোগ ও মতামত'&&x.reply)html+=`<div class="item" style="margin-top:12px;border-left:4px solid #008d68;background:#f1fff9"><b>💬 এডমিনের উত্তর</b><p style="margin-bottom:0">${esc(x.reply)}</p></div>`;
   html+=`</article>`;return html;
 }
 
@@ -708,8 +725,8 @@ async function login(){
   toast('✅ Admin login সফল এবং Firebase সিঙ্ক চালু');
 }
 function renderAdmin(){
-  const q=(document.getElementById('adminSearch')?.value||'').toLowerCase(),list=data().filter(x=>[x.title,x.category,x.kamareType,x.phone,x.address,x.desc].join(' ').toLowerCase().includes(q));
-  document.getElementById('adminList').innerHTML=list.map(x=>`<div class="admin-row"><div class="grow"><b>${esc(x.title)}</b><br><small>${esc(x.category)}${x.kamareType?' • '+esc(x.kamareType):''}${x.phone?' • '+esc(x.phone):''}${x.images?.length?' • 🖼️ '+x.images.length+' ছবি':''}</small></div><button class="btn secondary" onclick="openForm('${jsq(x.id)}')">✏️</button><button class="btn danger" onclick="deleteItem('${jsq(x.id)}')">🗑️</button></div>`).join('')||'<p class="muted">কোনো তথ্য নেই।</p>';
+  const q=(document.getElementById('adminSearch')?.value||'').toLowerCase(),list=data().filter(x=>[x.title,x.category,x.kamareType,x.phone,x.address,x.desc,x.reply].join(' ').toLowerCase().includes(q));
+  document.getElementById('adminList').innerHTML=list.map(x=>`<div class="admin-row"><div class="grow"><b>${esc(x.title)}</b><br><small>${esc(x.category)}${x.kamareType?' • '+esc(x.kamareType):''}${x.phone?' • '+esc(x.phone):''}${x.images?.length?' • 🖼️ '+x.images.length+' ছবি':''}</small>${x.category==='অভিযোগ ও মতামত'?`<div style="margin-top:8px">${x.reply?`<span class="pill">✅ উত্তর দেওয়া হয়েছে</span>`:`<span class="pill">⏳ উত্তর বাকি</span>`}</div>`:''}</div>${x.category==='অভিযোগ ও মতামত'?`<button class="btn green" onclick="openReplyModal('${jsq(x.id)}')">💬 ${x.reply?'উত্তর দেখুন':'উত্তর দিন'}</button>`:''}<button class="btn secondary" onclick="openForm('${jsq(x.id)}')">✏️</button><button class="btn danger" onclick="deleteItem('${jsq(x.id)}')">🗑️</button></div>`).join('')||'<p class="muted">কোনো তথ্য নেই।</p>';
 }
 function fillCategories(){document.getElementById('fCategory').innerHTML=getCats().map(c=>`<option value="${esc(c[0])}">${c[1]} ${esc(c[0])}</option>`).join('')}
 
@@ -774,7 +791,7 @@ async function saveItem(e){
   }
   galleryImages=galleryImages.slice(-8);
   while(galleryImages.reduce((n,v)=>n+String(v||'').length,0)>780000)galleryImages.shift();
-  const obj={id,category,kamareType:category==='কামারের চর'?fKamareType.value:'',title:fTitle.value.trim(),subtitle:fSubtitle.value.trim(),phone:fPhone.value.trim(),address:fAddress.value.trim(),desc:fDesc.value.trim(),image:safeUrl(fImage.value.trim()),images:galleryImages,video:safeUrl(fVideo.value.trim()),map:safeUrl(fMap.value.trim()),bloodGroup:category==='রক্তদাতা তালিকা'?fBloodGroup.value:'',_deleted:false};
+  const obj={id,category,kamareType:category==='কামারের চর'?fKamareType.value:'',title:fTitle.value.trim(),subtitle:fSubtitle.value.trim(),phone:fPhone.value.trim(),address:fAddress.value.trim(),desc:fDesc.value.trim(),image:safeUrl(fImage.value.trim()),images:galleryImages,video:safeUrl(fVideo.value.trim()),map:safeUrl(fMap.value.trim()),bloodGroup:category==='রক্তদাতা তালিকা'?fBloodGroup.value:'',reply:oldItem?.reply||'',repliedAt:oldItem?.repliedAt||'',_deleted:false};
   try{
     save(d.filter(x=>x.id!==id).concat(obj));
     await db.collection('appItems').doc(id).set(obj);
@@ -793,10 +810,34 @@ async function deleteItem(id){
 
 async function sendFeedback(){
   const n=fbName.value,p=fbPhone.value,t=fbText.value;if(!t.trim()){toast('বিস্তারিত লিখুন');return}
-  const obj={id:'feedback'+Date.now(),category:'অভিযোগ ও মতামত',title:n||'নামহীন মতামত',subtitle:p?'ফোন: '+p:'',phone:p,address:'',desc:t,image:'',images:[],video:'',map:'',bloodGroup:'',kamareType:'',createdAt:new Date().toISOString()};
+  const obj={id:'feedback'+Date.now(),category:'অভিযোগ ও মতামত',title:n||'নামহীন মতামত',subtitle:p?'ফোন: '+p:'',phone:p,address:'',desc:t,image:'',images:[],video:'',map:'',bloodGroup:'',kamareType:'',reply:'',repliedAt:'',createdAt:new Date().toISOString()};
   const d=data();d.push(obj);save(d);
   try{await db.collection('appItems').doc(obj.id).set(obj);toast('✅ আপনার মতামত সংরক্ষণ ও সিঙ্ক হয়েছে')}catch(err){console.error(err);toast('⚠️ মতামত ফোনে সংরক্ষণ হয়েছে; অনলাইনে পাঠানো যায়নি')}
   closeModal('categoryModal');
+}
+function openReplyModal(id){
+  const x=data().find(a=>a.id===id);
+  if(!x||x.category!=='অভিযোগ ও মতামত')return;
+  document.getElementById('replyId').value=id;
+  document.getElementById('replyPerson').textContent=x.title||'নামহীন ব্যবহারকারী';
+  document.getElementById('replyQuestion').textContent=x.desc||'কোনো বিস্তারিত লেখা নেই।';
+  document.getElementById('replyText').value=x.reply||'';
+  document.getElementById('replyModal').classList.add('show');
+}
+async function saveAdminReply(){
+  if(!(await requireAdminAuth()))return;
+  const id=document.getElementById('replyId').value;
+  const reply=document.getElementById('replyText').value.trim();
+  if(!reply){toast('উত্তর লিখুন');return}
+  const x=data().find(a=>a.id===id);
+  if(!x)return;
+  const updated={...x,reply,repliedAt:new Date().toISOString()};
+  try{
+    save(data().filter(a=>a.id!==id).concat(updated));
+    await db.collection('appItems').doc(id).set({reply,repliedAt:updated.repliedAt},{merge:true});
+    closeModal('replyModal');renderAdmin();render();
+    toast('✅ উত্তর সংরক্ষণ হয়েছে — ব্যবহারকারী দেখতে পারবেন');
+  }catch(err){console.error(err);toast('❌ উত্তর Firebase-এ সংরক্ষণ করা যায়নি')}
 }
 async function adminLogout(){
   try{await auth.signOut()}catch(e){console.error(e)}
