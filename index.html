@@ -74,8 +74,11 @@ body.dark .ayah-bn{color:#d1d5db}.union-item{border-left:5px solid #1551e8}.unio
 /* Gallery and Calendar Styles */
 .gallery-upload-box{background:#f5f8ff;border:2px dashed #1768e5;border-radius:15px;padding:15px;margin-top:8px}
 body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
-.gallery-upload-box input[type=file]{width:100%;padding:10px;border:0;background:transparent}
-.gallery-help{font-size:12px;color:#687386;margin-top:6px}
+.gallery-upload-box input[type=file]{width:1px;height:1px;position:absolute;opacity:0;pointer-events:none}
+.gallery-help{font-size:12px;color:#687386;margin-top:8px;line-height:1.5}
+.photo-pick-btn{width:100%;font-size:16px;padding:14px 12px;margin:0;cursor:pointer}
+.gallery-selected-text{font-size:13px;font-weight:600;margin-top:9px;color:#1768e5}
+body.dark .gallery-selected-text{color:#20b7dc}
 .gallery-preview{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
 .gallery-preview img{width:100%;height:130px;object-fit:cover;border-radius:12px}
 .post-gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}
@@ -266,12 +269,14 @@ body.dark .gallery-upload-box{background:#111827;border-color:#20b7dc}
         </div>
         <div class="field"><label>বিস্তারিত</label><textarea id="fDesc"></textarea></div>
 
-        <!-- Gallery upload -->
+        <!-- NEW PHOTO UPLOAD -->
         <div class="field" id="galleryUploadField">
-          <label>🖼️ Gallery থেকে পোস্টার / ছবি আপলোড করুন</label>
-          <div class="gallery-upload-box">
-            <input id="fGallery" type="file" accept="image/*" multiple onchange="previewGallery(this)">
-            <div class="gallery-help">📱 মোবাইলের Gallery থেকে এক বা একাধিক পোস্টার/ছবি নির্বাচন করুন। (সর্বোচ্চ ৮টি ছবি)</div>
+          <label>🖼️ ক্যাটাগরিতে ছবি / পোস্টার যোগ করুন</label>
+          <div class="gallery-upload-box new-photo-box">
+            <input id="fGallery" class="photo-file-input" type="file" accept="image/*" multiple onchange="previewGallery(this)">
+            <button type="button" class="btn photo-pick-btn" onclick="chooseGalleryPhoto()">📷 ছবি নির্বাচন করুন</button>
+            <div class="gallery-help">📱 এই বোতামে চাপ দিয়ে মোবাইলের Gallery থেকে ছবি নির্বাচন করুন। একসাথে সর্বোচ্চ ৮টি ছবি যোগ করা যাবে।</div>
+            <div id="gallerySelectedText" class="gallery-selected-text">কোনো ছবি নির্বাচন করা হয়নি</div>
             <div id="galleryPreview" class="gallery-preview"></div>
           </div>
         </div>
@@ -802,13 +807,13 @@ function renderAdmin(){
 function fillCategories(){document.getElementById('fCategory').innerHTML=getCats().map(c=>`<option value="${esc(c[0])}">${c[1]} ${esc(c[0])}</option>`).join('')}
 
 function openForm(id='',quickNotice=false){
-  fillCategories();document.getElementById('itemForm').reset();document.getElementById('editId').value=id;document.getElementById('galleryPreview').innerHTML='';
+  fillCategories();document.getElementById('itemForm').reset();document.getElementById('editId').value=id;document.getElementById('galleryPreview').innerHTML='';document.getElementById('gallerySelectedText').textContent='কোনো ছবি নির্বাচন করা হয়নি';
   if(quickNotice)document.getElementById('fCategory').value='আজকের নোটিশ';
   if(id){
     const x=data().find(a=>a.id===id);
     if(x){
       fCategory.value=x.category;fKamareType.value=x.kamareType||'খবর';fTitle.value=x.title;fSubtitle.value=x.subtitle||'';fPhone.value=x.phone||'';fAddress.value=x.address||'';fDesc.value=x.desc||'';fImage.value=x.image||'';fVideo.value=x.video||'';fMap.value=x.map||'';fBloodGroup.value=x.bloodGroup||'';
-      if(Array.isArray(x.images)&&x.images.length)document.getElementById('galleryPreview').innerHTML=x.images.filter(v=>String(v).startsWith('data:image/')).map(img=>`<img src="${img}" alt="বর্তমান পোস্টার">`).join('');
+      if(Array.isArray(x.images)&&x.images.length){document.getElementById('galleryPreview').innerHTML=x.images.filter(v=>String(v).startsWith('data:image/')).map(img=>`<img src="${img}" alt="বর্তমান পোস্টার">`).join('');document.getElementById('gallerySelectedText').textContent='🖼️ '+x.images.length+'টি বর্তমান ছবি আছে — নতুন ছবি যোগ করলে সেগুলোও থাকবে';}
     }
   }
   toggleFields();document.getElementById('formTitle').textContent=id?'✏️ তথ্য সম্পাদনা':'➕ নতুন তথ্য';document.getElementById('formModal').classList.add('show');
@@ -845,9 +850,26 @@ function compressGalleryImage(file){
     reader.onerror=()=>reject(new Error('File read error'));reader.readAsDataURL(file);
   });
 }
+function chooseGalleryPhoto(){
+  const input=document.getElementById('fGallery');
+  if(input){ input.click(); }
+}
 function previewGallery(input){
-  const box=document.getElementById('galleryPreview');if(!box)return;box.innerHTML='';
-  [...input.files].slice(0,8).forEach(file=>{const reader=new FileReader();reader.onload=e=>{const img=document.createElement('img');img.src=e.target.result;img.alt='পোস্টার';box.appendChild(img)};reader.readAsDataURL(file)});
+  const box=document.getElementById('galleryPreview');
+  const text=document.getElementById('gallerySelectedText');
+  if(!box)return;
+  box.innerHTML='';
+  const files=[...input.files].slice(0,8);
+  if(text) text.textContent=files.length?('✅ '+files.length+'টি ছবি নির্বাচন করা হয়েছে'):'কোনো ছবি নির্বাচন করা হয়নি';
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=document.createElement('img');
+      img.src=e.target.result;img.alt='পোস্টার';
+      box.appendChild(img);
+    };
+    reader.readAsDataURL(file);
+  });
   if(input.files.length>8)toast('সর্বোচ্চ ৮টি ছবি নেওয়া হবে');
 }
 
@@ -1056,4 +1078,4 @@ async function bootstrapFirebase(){
 
 </script>
 </body>
-  </html>
+      </html>
