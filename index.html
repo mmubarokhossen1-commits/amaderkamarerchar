@@ -196,9 +196,12 @@ body.dark .gallery-selected-text{color:#20b7dc}
         <button class="btn purple" onclick="openAddCategoryModal()">📁 নতুন ক্যাটাগরি যোগ</button>
         <button class="btn secondary" onclick="openForm('',true)">📢 দ্রুত নোটিশ যোগ</button>
         <button id="adminFeedbackBtn" class="btn green" style="min-width:270px;font-weight:800" onclick="showAdminFeedback()">📝 অভিযোগ ও মতামত</button>
+        <button class="btn secondary" onclick="showAllAdminItems()">📋 সব তথ্য</button>
+        <button class="btn secondary" onclick="showAdminNotices()">📢 শুধু নোটিশ</button>
         <button class="btn danger" onclick="adminLogout()">🚪 Admin লগআউট</button>
       </div>
       <div class="field" style="margin-top:12px"><input id="adminSearch" placeholder="এডমিন তথ্য খুঁজুন..." oninput="renderAdmin()"></div>
+      <div id="adminFilterLabel" class="muted" style="margin:4px 0 10px;font-weight:800"></div>
       <div id="adminList" class="admin-list"></div>
     </div>
   </div>
@@ -775,6 +778,7 @@ async function login(){
   const pw=document.getElementById('adminPasswordInput');
   if(pw)pw.value='';
   closeModal('pinModal');
+  adminFilter='all';
   renderAdmin();
   document.getElementById('adminModal').classList.add('show');
   toast('✅ Admin login সফল এবং Firebase সিঙ্ক চালু');
@@ -787,29 +791,91 @@ function adminData(){
   return list.filter((x,i,a)=>a.findIndex(y=>y.id===x.id)===i);
 }
 
-function showAdminFeedback(){
+let adminFilter='all';
+
+function showAllAdminItems(){
+  adminFilter='all';
   const search=document.getElementById('adminSearch');
-  if(search)search.value='অভিযোগ ও মতামত';
+  if(search)search.value='';
+  renderAdmin();
+  toast('📋 সব তথ্য দেখানো হচ্ছে');
+}
+
+function showAdminNotices(){
+  adminFilter='notice';
+  const search=document.getElementById('adminSearch');
+  if(search)search.value='';
+  renderAdmin();
+  toast('📢 শুধু নোটিশগুলো দেখানো হচ্ছে');
+}
+
+function showAdminFeedback(){
+  adminFilter='feedback';
+  const search=document.getElementById('adminSearch');
+  if(search)search.value='';
   renderAdmin();
   const list=adminData().filter(x=>x.category==='অভিযোগ ও মতামত');
   if(!list.length)toast('📭 এখনো কোনো অভিযোগ/মতামত পাওয়া যায়নি');
   else toast('📝 সব অভিযোগ/মতামত এখানে দেখা যাচ্ছে');
 }
+
 function renderAdmin(){
-  const q=(document.getElementById('adminSearch')?.value||'').toLowerCase(),list=adminData().filter(x=>[x.title,x.category,x.kamareType,x.phone,x.address,x.desc,x.reply].join(' ').toLowerCase().includes(q));
+  const q=(document.getElementById('adminSearch')?.value||'').trim().toLowerCase();
+  let list=adminData();
+
+  if(adminFilter==='feedback'){
+    list=list.filter(x=>x.category==='অভিযোগ ও মতামত');
+  }else if(adminFilter==='notice'){
+    list=list.filter(x=>['আজকের নোটিশ','ইউনিয়ন নোটিশ','সরকারি ঘোষণা','শিক্ষা নোটিশ'].includes(x.category) ||
+      (x.category==='কামারের চর' && x.kamareType==='বিজ্ঞপ্তি'));
+  }else{
+    // সাধারণ তথ্যের তালিকায় অভিযোগ আলাদা থাকবে, যাতে Admin ভুল করে ফর্মে না ঢোকেন।
+    list=list.filter(x=>x.category!=='অভিযোগ ও মতামত');
+  }
+
+  if(q){
+    list=list.filter(x=>[x.title,x.category,x.kamareType,x.phone,x.address,x.desc,x.reply].join(' ').toLowerCase().includes(q));
+  }
+
   const fbBtn=document.getElementById('adminFeedbackBtn');
   if(fbBtn){
     const pending=adminData().filter(x=>x.category==='অভিযোগ ও মতামত'&&!x.reply).length;
     fbBtn.textContent=pending?`📝 অভিযোগ ও মতামত (${pending} বাকি)`:'📝 অভিযোগ ও মতামত';
   }
-  document.getElementById('adminList').innerHTML=list.map(x=>`<div class="admin-row"><div class="grow"><b>${esc(x.title)}</b><br><small>${esc(x.category)}${x.kamareType?' • '+esc(x.kamareType):''}${x.phone?' • '+esc(x.phone):''}${x.images?.length?' • 🖼️ '+x.images.length+' ছবি':''}</small>${x.category==='অভিযোগ ও মতামত'?`<div style="margin-top:8px">${x.reply?`<span class="pill">✅ উত্তর দেওয়া হয়েছে</span>`:`<span class="pill">⏳ উত্তর বাকি</span>`}</div>`:''}</div>${x.category==='অভিযোগ ও মতামত'?`<button class="btn green" onclick="openReplyModal('${jsq(x.id)}')">💬 ${x.reply?'উত্তর দেখুন':'উত্তর দিন'}</button>`:''}<button class="btn secondary" onclick="openForm('${jsq(x.id)}')">✏️</button><button class="btn danger" onclick="deleteItem('${jsq(x.id)}')">🗑️</button></div>`).join('')||'<p class="muted">কোনো তথ্য নেই।</p>';
+
+  const label=document.getElementById('adminFilterLabel');
+  if(label){
+    label.textContent=adminFilter==='feedback'?'📝 অভিযোগ ও মতামত':adminFilter==='notice'?'📢 নোটিশ':'📋 সব সাধারণ তথ্য';
+  }
+
+  document.getElementById('adminList').innerHTML=list.map(x=>{
+    const isFeedback=x.category==='অভিযোগ ও মতামত';
+    return `<div class="admin-row">
+      <div class="grow">
+        <b>${esc(x.title)}</b><br>
+        <small>${esc(x.category)}${x.kamareType?' • '+esc(x.kamareType):''}${x.phone?' • '+esc(x.phone):''}${x.images?.length?' • 🖼️ '+x.images.length+' ছবি':''}</small>
+        ${isFeedback?`<div style="margin-top:8px">${x.reply?`<span class="pill">✅ উত্তর দেওয়া হয়েছে</span>`:`<span class="pill">⏳ উত্তর বাকি</span>`}</div>`:''}
+      </div>
+      ${isFeedback
+        ? `<button class="btn green" onclick="openReplyModal('${jsq(x.id)}')">💬 ${x.reply?'উত্তর দেখুন':'উত্তর দিন'}</button>
+           <button class="btn danger" onclick="deleteItem('${jsq(x.id)}')">🗑️</button>`
+        : `<button class="btn secondary" onclick="openForm('${jsq(x.id)}')">✏️</button>
+           <button class="btn danger" onclick="deleteItem('${jsq(x.id)}')">🗑️</button>`}
+    </div>`;
+  }).join('')||'<p class="muted">কোনো তথ্য নেই।</p>';
 }
+
 function fillCategories(){document.getElementById('fCategory').innerHTML=getCats().map(c=>`<option value="${esc(c[0])}">${c[1]} ${esc(c[0])}</option>`).join('')}
 
 function openForm(id='',quickNotice=false){
   fillCategories();document.getElementById('itemForm').reset();document.getElementById('editId').value=id;document.getElementById('galleryPreview').innerHTML='';document.getElementById('gallerySelectedText').textContent='কোনো ছবি নির্বাচন করা হয়নি';
   if(quickNotice)document.getElementById('fCategory').value='আজকের নোটিশ';
   if(id){
+    const feedback=feedbackData().find(a=>a.id===id);
+    if(feedback){
+      toast('📝 অভিযোগ/মতামতের জন্য “উত্তর দিন” ব্যবহার করুন');
+      return;
+    }
     const x=data().find(a=>a.id===id);
     if(x){
       fCategory.value=x.category;fKamareType.value=x.kamareType||'খবর';fTitle.value=x.title;fSubtitle.value=x.subtitle||'';fPhone.value=x.phone||'';fAddress.value=x.address||'';fDesc.value=x.desc||'';fImage.value=x.image||'';fVideo.value=x.video||'';fMap.value=x.map||'';fBloodGroup.value=x.bloodGroup||'';
@@ -894,9 +960,18 @@ async function saveItem(e){
 async function deleteItem(id){
   if(!confirm('এই তথ্য মুছে ফেলবেন?'))return;
   if(!(await requireAdminAuth()))return;
+  const x=adminData().find(a=>a.id===id);
+  if(!x)return;
   try{
-    save(data().filter(x=>x.id!==id));
-    await db.collection('appItems').doc(id).set({id,_deleted:true});
+    if(x.category==='অভিযোগ ও মতামত' && !x.legacyAppItem){
+      save(localData().filter(a=>a.id!==id));
+      remoteFeedbacks.delete(id);
+      await db.collection('feedbacks').doc(id).set({id,_deleted:true},{merge:true});
+    }else{
+      save(data().filter(a=>a.id!==id));
+      await db.collection('appItems').doc(id).set({id,_deleted:true},{merge:true});
+      remoteItems.set(id,{...x,_deleted:true});
+    }
     renderAdmin();render();toast('তথ্য মুছে ফেলা হয়েছে — সবার ফোনে আপডেট হবে');
   }catch(e){console.error(e);toast('❌ তথ্য মুছতে Firebase সমস্যা হয়েছে')}
 }
@@ -1078,4 +1153,4 @@ async function bootstrapFirebase(){
 
 </script>
 </body>
-      </html>
+                                     </html>
